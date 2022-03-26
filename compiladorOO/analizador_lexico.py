@@ -11,10 +11,12 @@ class AnalizadorLexico:
         linha_atual = 1
         for linha in texto:
             for caractere in linha:
-                if(caractere != " "):
+                if(self.look_ahead(caractere, linha_atual)):
+                    #print(caractere != " " and caractere != "{")
                     buffer += caractere
-                    print(buffer)
+                    #print(buffer)
                 else:
+                    #print(buffer)
                     self.verifica_palavras_reservadas(buffer, linha_atual)
                     buffer = ""
 
@@ -23,6 +25,28 @@ class AnalizadorLexico:
 
         for t in self.tokens:
             print(t.nome + " " + t.lexema + " " + str(t.linha))
+    
+    def look_ahead(self, p, linha):
+        if(p == " "):
+            return False
+        elif(p == "{"):
+            self.tokens.append(TokenLex("<abre_chaves>","{",linha))
+            return False
+        elif(p == "}"):
+            self.tokens.append(TokenLex("<fecha_chaves>","}",linha))
+            return False
+        elif(p == "("):
+            self.tokens.append(TokenLex("<abre_parenteses>","(",linha))
+            return False
+        elif(p == ")"):
+            self.tokens.append(TokenLex("<fecha_parenteses>",")",linha))
+            return False
+        elif(p == ";"):
+            self.tokens.append(TokenLex("<fim_comando>",";",linha))
+            return False
+        else:
+            return True
+
 
     def verifica_palavras_reservadas(self, buffer, linha):
         if (buffer == "main"):
