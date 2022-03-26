@@ -5,19 +5,6 @@ class AnalizadorLexico:
     def __init__(self,texto):
         self.texto = texto
         self.tokens = []
-        self.palavras_reservadas= ["main",
-                                    "int",
-                                    "boolean",
-                                    "const",
-                                    "def",
-                                    "procedure",
-                                    "return",
-                                    "if",
-                                    "else",
-                                    "while",
-                                    "break",
-                                    "continue", 
-                                    "printf"]
     
     def tokenizar(self, texto):
         buffer = ""
@@ -28,18 +15,11 @@ class AnalizadorLexico:
                     buffer += caractere
                     print(buffer)
                 else:
-                    #buffer = buffer.strip(" ")
-                    if(self.palavras_reservadas.__contains__(buffer)):
-                        print("achou " + buffer + " "+ str(linha_atual))
-                        self.verifica_palavras_reservadas(buffer, linha_atual)
-
+                    self.verifica_palavras_reservadas(buffer, linha_atual)
                     buffer = ""
-            buffer = ""
-                #buffer = buffer + caractere if caractere != " " else buffer = ""
-                    #print(buffer)
-            #print(linha)
-            linha_atual += 1
 
+            buffer = ""
+            linha_atual += 1
 
         for t in self.tokens:
             print(t.nome + " " + t.lexema + " " + str(t.linha))
@@ -56,6 +36,9 @@ class AnalizadorLexico:
             return True
         elif (buffer == "procedure"):
             self.tokens.append(TokenLex("<procedimento>","proedure",linha))
+            return True
+        elif (buffer == "const"):
+            self.tokens.append(TokenLex("<constante>","const",linha))
             return True
         elif (buffer == "return"):
             self.tokens.append(TokenLex("<retorno>","return",linha))
