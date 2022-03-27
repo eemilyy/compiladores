@@ -1,13 +1,4 @@
 main{
-int a10 = 10;
-const pi;
-boolean verdadeiro = false;
-
-if(a10 != 10){
-a10 >= 3;
-}
-else{
-int b = 10;
-}
-
+int a;
+boolean b;
 }

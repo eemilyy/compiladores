@@ -64,7 +64,7 @@ class AnalizadorLexico:
             self.tokens.append(TokenLex("<declaracao_func>","def",linha))
             return True
         elif (buffer == "procedure"):
-            self.tokens.append(TokenLex("<procedimento>","proedure",linha))
+            self.tokens.append(TokenLex("<procedimento>","procedure",linha))
             return True
         elif (buffer == "const"):
             self.tokens.append(TokenLex("<constante>","const",linha))
@@ -107,7 +107,7 @@ class AnalizadorLexico:
             #         continue
             #     else:
             #         return False
-            self.tokens.append(TokenLex("<varivel>",buffer,linha))
+            self.tokens.append(TokenLex("<variavel>",buffer,linha))
         else:
             for c in buffer:
                  #print(c)
