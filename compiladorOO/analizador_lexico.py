@@ -9,19 +9,23 @@ class AnalizadorLexico:
     def tokenizar(self, texto):
         buffer = ""
         linha_atual = 1
-        inserir_prox = False
+        #inserir_prox = False
         for linha in texto:
             for i in range(len(linha)):
                 if((i + 1) < len(linha)):
                     buffer += linha[i]
                     #if(inserir_prox):
                         #inserir_prox = False
-                    self.verifica_delimitadores(buffer, linha_atual)
-                    if(linha[i + 1] == " " or linha[i + 1] == "{" or linha[i + 1] == "}" or linha[i + 1] == "(" or linha[i + 1] == ")" or linha[i + 1] == ";"):
-                        #inserir_prox = True
-                        self.verifica_palavras_reservadas(buffer, linha_atual)
-
+                    if(self.verifica_delimitadores(buffer, linha_atual)):
+                        print("hello")
                         buffer = ""
+                    elif(linha[i + 1] == " " or linha[i + 1] == "{" or linha[i + 1] == "}" or linha[i + 1] == "(" or linha[i + 1] == ")" or linha[i + 1] == ";"):
+                        #inserir_prox = True
+                        buffer = buffer.strip()
+                        self.verifica_palavras_reservadas(buffer, linha_atual)
+                        buffer = ""
+                        
+                    
                         
             buffer = ""
             linha_atual += 1
@@ -32,24 +36,24 @@ class AnalizadorLexico:
     
     def verifica_delimitadores(self, p, linha):
         if(p == " "):
-            return False
+            return True
         elif(p == "{"):
             self.tokens.append(TokenLex("<abre_chaves>","{",linha))
-            return False
+            return True
         elif(p == "}"):
             self.tokens.append(TokenLex("<fecha_chaves>","}",linha))
-            return False
+            return True
         elif(p == "("):
             self.tokens.append(TokenLex("<abre_parenteses>","(",linha))
-            return False
+            return True
         elif(p == ")"):
             self.tokens.append(TokenLex("<fecha_parenteses>",")",linha))
-            return False
+            return True
         elif(p == ";"):
             self.tokens.append(TokenLex("<fim_comando>",";",linha))
-            return False
-        else:
             return True
+        else:
+            return False
 
 
     def verifica_palavras_reservadas(self, buffer, linha):
@@ -86,11 +90,32 @@ class AnalizadorLexico:
         elif (buffer == "printf"):
             self.tokens.append(TokenLex("<imprimir>","printf",linha))
             return True
-        elif (buffer == "=="):
+        elif (buffer == "==" or buffer == "!=" or buffer == "<=" or buffer == ">=" or buffer == ">" or buffer == "<"):
             self.tokens.append(TokenLex("<booleanas>",">, <, >=, <=, ==, !=",linha))
             return True
         elif (buffer == "="):
             self.tokens.append(TokenLex("<atribuição>","=",linha))
             return True
         else:
-            return False #não encontrado
+            #print("entrou variavel")
+            self.varivel(buffer, linha)
+            #return False #não encontrado
+
+    def varivel(self, buffer, linha):   
+        #print(buffer)
+        if((buffer[0].upper() >= 'A' and buffer[0].upper() <= 'Z')):
+            # for c in buffer:
+            #     #print(c)
+            #     if(c >= 'a' and c <= 'z') or (c >= 'A' and c <= 'Z'):
+            #         continue
+            #     else:
+            #         return False
+            self.tokens.append(TokenLex("<varivel>",buffer,linha))
+        else:
+            for c in buffer:
+                 #print(c)
+                 if(c >= '0' and c <= '9'):
+                     continue
+                 else:
+                     return False
+            self.tokens.append(TokenLex("<numerico>",buffer,linha))
