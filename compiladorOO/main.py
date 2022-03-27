@@ -1,4 +1,5 @@
 from analizador_lexico import AnalizadorLexico
+from analizador_sintatico import AnalizadorSintatico
 arq = open("code.txt","r")
 texto = arq.readlines()
 
