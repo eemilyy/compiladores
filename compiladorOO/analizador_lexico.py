@@ -9,24 +9,39 @@ class AnalizadorLexico:
     def tokenizar(self, texto):
         buffer = ""
         linha_atual = 1
+        inserir_prox = False
         for linha in texto:
-            for caractere in linha:
-                if(self.look_ahead(caractere, linha_atual)):
-                    #print(caractere != " " and caractere != "{")
-                    buffer += caractere
-                    #print(buffer)
-                else:
-                    #print(buffer)
-                    self.verifica_palavras_reservadas(buffer, linha_atual)
-                    buffer = ""
+            for i in range(len(linha)):
+                if((i + 1) < len(linha)):
+                    buffer += linha[i]
+                    #if(inserir_prox):
+                        #inserir_prox = False
+                    self.verifica_delimitadores(buffer, linha_atual)
+                    if(linha[i + 1] == " " or linha[i + 1] == "{" or linha[i + 1] == "}" or linha[i + 1] == "(" or linha[i + 1] == ")" or linha[i + 1] == ";"):
+                        #inserir_prox = True
+                        self.verifica_palavras_reservadas(buffer, linha_atual)
 
+                        buffer = ""
+                    #print(linha[i + 1])
+            # for caractere in linha:
+            #     if(self.verifica_delimitadores(caractere, linha_atual)):
+            #         #print(caractere != " " and caractere != "{")
+            #         buffer += caractere
+            #         #print(buffer)
+            #     else:
+
+            #         #print(buffer)
+            #         self.verifica_palavras_reservadas(buffer, linha_atual)
+            #         buffer = ""
+            #     contador += 1
             buffer = ""
             linha_atual += 1
+            
 
         for t in self.tokens:
             print(t.nome + " " + t.lexema + " " + str(t.linha))
     
-    def look_ahead(self, p, linha):
+    def verifica_delimitadores(self, p, linha):
         if(p == " "):
             return False
         elif(p == "{"):
@@ -68,7 +83,7 @@ class AnalizadorLexico:
             self.tokens.append(TokenLex("<retorno>","return",linha))
             return True
         elif (buffer == "if" or buffer == "else"):
-            self.tokens.append(TokenLex("<if>","if,else",linha))
+            self.tokens.append(TokenLex("<condicao>","if,else",linha))
             return True
         elif (buffer == "while"):
             self.tokens.append(TokenLex("<laco>","while",linha))
@@ -81,6 +96,12 @@ class AnalizadorLexico:
             return True
         elif (buffer == "printf"):
             self.tokens.append(TokenLex("<imprimir>","printf",linha))
+            return True
+        elif (buffer == "=="):
+            self.tokens.append(TokenLex("<booleanas>",">, <, >=, <=, ==, !=",linha))
+            return True
+        elif (buffer == "="):
+            self.tokens.append(TokenLex("<atribuição>","=",linha))
             return True
         else:
             return False #não encontrado
