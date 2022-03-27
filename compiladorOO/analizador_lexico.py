@@ -19,7 +19,7 @@ class AnalizadorLexico:
                     if(self.verifica_delimitadores(buffer, linha_atual)):
                         #print("hello")
                         buffer = ""
-                    elif(linha[i + 1] == " " or linha[i + 1] == "{" or linha[i + 1] == "}" or linha[i + 1] == "(" or linha[i + 1] == ")" or linha[i + 1] == ";"):
+                    elif(linha[i + 1] == " " or linha[i + 1] == "\n" or linha[i + 1] == "{" or linha[i + 1] == "}" or linha[i + 1] == "(" or linha[i + 1] == ")" or linha[i + 1] == ";"):
                         #inserir_prox = True
                         buffer = buffer.strip()
                         self.verifica_palavras_reservadas(buffer, linha_atual)
@@ -90,8 +90,11 @@ class AnalizadorLexico:
         elif (buffer == "==" or buffer == "!=" or buffer == "<=" or buffer == ">=" or buffer == ">" or buffer == "<"):
             self.tokens.append(TokenLex("<booleanas>",">, <, >=, <=, ==, !=",linha))
             return True
+        elif (buffer == "+" or buffer == "-" or buffer == "*" or buffer == "/"):
+            self.tokens.append(TokenLex("<aritmeticas>","+, -, *, /",linha))
+            return True
         elif (buffer == "="):
-            self.tokens.append(TokenLex("<atribuição>","=",linha))
+            self.tokens.append(TokenLex("<atribuicao>","=",linha))
             return True
         else:
             #print("entrou variavel")
