@@ -22,18 +22,7 @@ class AnalizadorLexico:
                         self.verifica_palavras_reservadas(buffer, linha_atual)
 
                         buffer = ""
-                    #print(linha[i + 1])
-            # for caractere in linha:
-            #     if(self.verifica_delimitadores(caractere, linha_atual)):
-            #         #print(caractere != " " and caractere != "{")
-            #         buffer += caractere
-            #         #print(buffer)
-            #     else:
-
-            #         #print(buffer)
-            #         self.verifica_palavras_reservadas(buffer, linha_atual)
-            #         buffer = ""
-            #     contador += 1
+                        
             buffer = ""
             linha_atual += 1
             
