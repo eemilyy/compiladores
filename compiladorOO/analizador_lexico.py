@@ -118,5 +118,6 @@ class AnalizadorLexico:
             self.tokens.append(TokenLex("<numerico>",buffer,linha))
 
     def imprimir_lista_tokens(self):
+        print(self.tokens[3].nome + "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
         for t in self.tokens:
             print(t.nome + " " + t.lexema + " " + str(t.linha))
