@@ -8,3 +8,4 @@ arq.close()
 
 parser = AnalizadorLexico(texto)
 parser.tokenizar(texto)
+parser.imprimir_lista_tokens()

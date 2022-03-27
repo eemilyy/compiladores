@@ -17,7 +17,7 @@ class AnalizadorLexico:
                     #if(inserir_prox):
                         #inserir_prox = False
                     if(self.verifica_delimitadores(buffer, linha_atual)):
-                        print("hello")
+                        #print("hello")
                         buffer = ""
                     elif(linha[i + 1] == " " or linha[i + 1] == "{" or linha[i + 1] == "}" or linha[i + 1] == "(" or linha[i + 1] == ")" or linha[i + 1] == ";"):
                         #inserir_prox = True
@@ -29,10 +29,7 @@ class AnalizadorLexico:
                         
             buffer = ""
             linha_atual += 1
-            
 
-        for t in self.tokens:
-            print(t.nome + " " + t.lexema + " " + str(t.linha))
     
     def verifica_delimitadores(self, p, linha):
         if(p == " "):
@@ -119,3 +116,7 @@ class AnalizadorLexico:
                  else:
                      return False
             self.tokens.append(TokenLex("<numerico>",buffer,linha))
+
+    def imprimir_lista_tokens(self):
+        for t in self.tokens:
+            print(t.nome + " " + t.lexema + " " + str(t.linha))
