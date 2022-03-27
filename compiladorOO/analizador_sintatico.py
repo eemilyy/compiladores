@@ -11,7 +11,8 @@ class AnalizadorSintatico:
     def match(self, terminal):
         if(self.lista_tokens[self.look_ahead].nome == terminal):
             print("match!: "+ terminal)
-            self.look_ahead += 1
+            if(self.look_ahead < len(self.lista_tokens) - 1 ):
+                self.look_ahead += 1
         else:
             print("nao match!: "+ terminal)
             print("Syntax error line: " + str(self.lista_tokens[self.look_ahead].linha))
@@ -32,20 +33,28 @@ class AnalizadorSintatico:
             self.bloco()
         elif(token_.nome == "<declaracao_func>"):
             self.declaracao_funcao()
+            self.bloco()
         elif(token_.nome == "<condicao>"):
             self.condicao()
+            self.bloco()
         elif(token_.nome == "<laco>"):
             self.laco()
+            self.bloco()
         elif(token_.nome == "<imprimir>"):
             self.imprimir()
+            self.bloco()
         elif(token_.nome == "<retorno>"):
             self.retorno()
+            self.bloco()
         elif(token_.nome == "<procedimento>"):
             self.procedimento()
+            self.bloco()
         elif(token_.nome == "<parar>"):
             self.match("<parar>")
+            self.bloco()
         elif(token_.nome == "<continuar>"):
             self.match("<continuar>")
+            self.bloco()
         else:
             #print("BLOCO Syntax error line: " + str(token_.linha))
             return
