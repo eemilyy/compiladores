@@ -30,6 +30,7 @@ class AnalizadorSintatico:
         #print(token_.nome)
         if(token_.nome == "<tipo>"):
             self.declaracao_variavel()
+            self.match("<fim_comando>")
             self.bloco()
         elif(token_.nome == "<declaracao_func>"):
             self.declaracao_funcao()
@@ -63,7 +64,7 @@ class AnalizadorSintatico:
     def declaracao_variavel(self):
         self.match("<tipo>")
         self.match("<variavel>")
-        self.match("<fim_comando>")
+        #self.match("<fim_comando>")
 
     def declaracao_funcao(self):
         self.match("<declaracao_func>")
@@ -79,8 +80,26 @@ class AnalizadorSintatico:
         self.match("<fecha_parenteses>")
 
     def parametros(self): # FAZER
+        token_ = self.lista_tokens[self.look_ahead]
         #<parametros> ::= <declaracao_variavel> , <parametros> | <declaracao_variavel> | ε
-        pass
+        if(token_.nome == "<tipo>"):
+            self.match("<tipo>")
+            self.match("<variavel>")
+            if(self.lista_tokens[self.look_ahead].nome == "<virgula>"):
+                print("virgula!!!!!!!!!!!!!!!!!")
+                self.match("<virgula>")
+                self.match("<tipo>")
+                self.match("<variavel>")
+                self.parametros()
+            else:
+                return
+        elif(token_.nome == "<virgula>"):
+             self.match("<virgula>")
+             self.match("<tipo>")
+             self.match("<variavel>")
+             self.parametros()
+        else:
+            return
 
     def expressao_simples(self): #*
         self.match("<variavel>")

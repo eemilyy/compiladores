@@ -96,6 +96,9 @@ class AnalizadorLexico:
         elif (buffer == "="):
             self.tokens.append(TokenLex("<atribuicao>","=",linha))
             return True
+        elif (buffer == ","):
+            self.tokens.append(TokenLex("<virgula>",",",linha))
+            return True
         else:
             #print("entrou variavel")
             self.varivel(buffer, linha)
