@@ -19,7 +19,7 @@ class AnalizadorLexico:
                     if(self.verifica_delimitadores(buffer, linha_atual)):
                         #print("hello")
                         buffer = ""
-                    elif(linha[i + 1] == " " or linha[i + 1] == "\n" or linha[i + 1] == "{" or linha[i + 1] == "}" or linha[i + 1] == "(" or linha[i + 1] == ")" or linha[i + 1] == ";"):
+                    elif(linha[i + 1] == " " or linha[i + 1] == "\n" or linha[i + 1] == "{" or linha[i + 1] == "}" or linha[i + 1] == "(" or linha[i + 1] == ")" or linha[i + 1] == ";" or linha[i + 1] == ","):
                         #inserir_prox = True
                         buffer = buffer.strip()
                         self.verifica_palavras_reservadas(buffer, linha_atual)
@@ -107,12 +107,12 @@ class AnalizadorLexico:
     def varivel(self, buffer, linha):   
         #print(buffer)
         if((buffer[0].upper() >= 'A' and buffer[0].upper() <= 'Z')):
-            # for c in buffer:
-            #     #print(c)
-            #     if(c >= 'a' and c <= 'z') or (c >= 'A' and c <= 'Z'):
-            #         continue
-            #     else:
-            #         return False
+            for c in buffer:
+                #print(c)
+                if(c >= 'a' and c <= 'z') or (c >= 'A' and c <= 'Z'):
+                    continue
+                else:
+                    return False
             self.tokens.append(TokenLex("<variavel>",buffer,linha))
         else:
             for c in buffer:

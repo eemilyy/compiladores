@@ -86,9 +86,9 @@ class AnalizadorSintatico:
             self.match("<tipo>")
             self.match("<variavel>")
             if(self.lista_tokens[self.look_ahead].nome == "<virgula>"):
-                self.match("<virgula>")
-                self.match("<tipo>")
-                self.match("<variavel>")
+                #self.match("<virgula>")
+                #self.match("<tipo>")
+                #self.match("<variavel>")
                 self.parametros()
             else:
                 return
