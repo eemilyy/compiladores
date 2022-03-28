@@ -1,3 +1,6 @@
+from lib2to3.pgen2 import token
+
+
 class AnalizadorSintatico:
     def __init__(self, lista_tokens):
         self.lista_tokens = lista_tokens
@@ -14,8 +17,8 @@ class AnalizadorSintatico:
             if(self.look_ahead < len(self.lista_tokens) - 1 ):
                 self.look_ahead += 1
         else:
-            print("nao match!: "+ terminal)
-            print("Syntax error line: " + str(self.lista_tokens[self.look_ahead].linha))
+            print('\033[91m' + "nao match!: "+ terminal + '\033[0m')
+            print('\033[91m' + "Syntax error line: " + str(self.lista_tokens[self.look_ahead].linha) + '\033[0m')
 #----------------------------------------------------------------------------------------------------
     def programa(self):
         #look_ahead = self.lista_tokens[self.look_ahead] #busca o token que look_ahead esta apontando
@@ -28,9 +31,20 @@ class AnalizadorSintatico:
     def bloco(self):
         token_ = self.lista_tokens[self.look_ahead]
         #print(token_.nome)
+        print("ATUAL " + token_.nome)
         if(token_.nome == "<tipo>"):
             self.declaracao_variavel()
-            self.match("<fim_comando>")
+            self.bloco()
+            # token_ = self.lista_tokens[self.look_ahead]
+            # print("VOLTOU" + token_.nome)
+            # if(token_.nome != "<fim_comando>"):
+            #     self.match("<fim_comando>")
+            # elif(token_.nome == "<atribuicao>"):                
+            #     self.atribuicao()
+
+            # self.bloco()
+        elif(token_.nome == "<atribuicao>"):                
+            self.atribuicao()
             self.bloco()
         elif(token_.nome == "<declaracao_func>"):
             self.declaracao_funcao()
@@ -64,7 +78,10 @@ class AnalizadorSintatico:
     def declaracao_variavel(self):
         self.match("<tipo>")
         self.match("<variavel>")
-        #self.match("<fim_comando>")
+
+        #print("DV:  "+ str((self.lista_tokens[self.look_ahead]).nome))
+        if(self.lista_tokens[self.look_ahead].nome != "<atribuicao>"):
+            self.match("<fim_comando>")
 
     def declaracao_funcao(self):
         self.match("<declaracao_func>")
@@ -72,6 +89,11 @@ class AnalizadorSintatico:
         self.match("<abre_chaves>")
         self.bloco()
         self.match("<fecha_chaves>")
+
+    def atribuicao(self):
+        self.match("<atribuicao>")
+        self.match("<variavel>")
+        self.match("<fim_comando>")
 
     def funcao(self):
         self.match("<variavel>")
