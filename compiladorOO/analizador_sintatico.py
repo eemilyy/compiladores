@@ -79,14 +79,13 @@ class AnalizadorSintatico:
         self.parametros()
         self.match("<fecha_parenteses>")
 
-    def parametros(self): # FAZER
+    def parametros(self):
         token_ = self.lista_tokens[self.look_ahead]
         #<parametros> ::= <declaracao_variavel> , <parametros> | <declaracao_variavel> | ε
         if(token_.nome == "<tipo>"):
             self.match("<tipo>")
             self.match("<variavel>")
             if(self.lista_tokens[self.look_ahead].nome == "<virgula>"):
-                print("virgula!!!!!!!!!!!!!!!!!")
                 self.match("<virgula>")
                 self.match("<tipo>")
                 self.match("<variavel>")
