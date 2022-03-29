@@ -94,7 +94,10 @@ class AnalizadorSintatico:
 
     def atribuicao(self):
         self.match("<atribuicao>")
-        self.match("<variavel>")
+        if(self.lista_tokens[self.look_ahead].nome != "<variavel>"):
+            self.match("<numerico>")
+        else:
+            self.match("<variavel>")
         self.match("<fim_comando>")
 
     def funcao(self):

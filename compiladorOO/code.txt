@@ -2,8 +2,9 @@ main{
 def soma(int a, int b){
 return a;
 }
-int b = c;
-a = ss;
+int b = ss;
+a = 56;
+int b = a;
 procedure bb;
 printf(hello);
 }
