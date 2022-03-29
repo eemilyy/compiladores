@@ -30,8 +30,6 @@ class AnalizadorSintatico:
                
     def bloco(self):
         token_ = self.lista_tokens[self.look_ahead]
-        #print(token_.nome)
-        print("ATUAL " + token_.nome)
         if(token_.nome == "<tipo>"):
             self.declaracao_variavel()
             self.bloco()
