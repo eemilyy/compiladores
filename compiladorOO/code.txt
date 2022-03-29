@@ -1,3 +1,9 @@
 main{
+def soma(int a, int b){
+return a;
+}
+int b = c;
 a = ss;
+procedure bb;
+printf(hello);
 }

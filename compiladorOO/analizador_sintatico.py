@@ -46,6 +46,10 @@ class AnalizadorSintatico:
         elif(token_.nome == "<atribuicao>"):                
             self.atribuicao()
             self.bloco()
+        elif(token_.nome == "<variavel>"): #Analisar com calma
+            self.match("<variavel>")                
+            self.atribuicao()
+            self.bloco()
         elif(token_.nome == "<declaracao_func>"):
             self.declaracao_funcao()
             self.bloco()
@@ -71,7 +75,7 @@ class AnalizadorSintatico:
             self.match("<continuar>")
             self.bloco()
         else:
-            #print("BLOCO Syntax error line: " + str(token_.linha))
+            #print('\033[93m' + "BLOCO Syntax error line: " + str(token_.linha) + '\033[0m')
             return
 
     
