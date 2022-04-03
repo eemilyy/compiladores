@@ -57,8 +57,11 @@ class AnalizadorLexico:
         if (buffer == "main"):
             self.tokens.append(TokenLex("<programa>","main",linha))
             return True
-        elif (buffer == "int" or buffer == "boolean"):
-            self.tokens.append(TokenLex("<tipo>","int,boolean",linha))
+        elif (buffer == "int"):
+            self.tokens.append(TokenLex("<tipo>","int",linha))
+            return True
+        elif (buffer == "boolean"):
+            self.tokens.append(TokenLex("<tipo>","boolean",linha))
             return True
         elif (buffer == "def"):
             self.tokens.append(TokenLex("<declaracao_func>","def",linha))
@@ -72,8 +75,11 @@ class AnalizadorLexico:
         elif (buffer == "return"):
             self.tokens.append(TokenLex("<retorno>","return",linha))
             return True
-        elif (buffer == "if" or buffer == "else"):
-            self.tokens.append(TokenLex("<condicao>","if,else",linha))
+        elif (buffer == "if"):
+            self.tokens.append(TokenLex("<condicao>","if",linha))
+            return True
+        elif (buffer == "else"):
+            self.tokens.append(TokenLex("<condicao>","else",linha))
             return True
         elif (buffer == "while"):
             self.tokens.append(TokenLex("<laco>","while",linha))
@@ -87,11 +93,36 @@ class AnalizadorLexico:
         elif (buffer == "printf"):
             self.tokens.append(TokenLex("<imprimir>","printf",linha))
             return True
-        elif (buffer == "==" or buffer == "!=" or buffer == "<=" or buffer == ">=" or buffer == ">" or buffer == "<"):
-            self.tokens.append(TokenLex("<booleanas>",">, <, >=, <=, ==, !=",linha))
+        elif (buffer == "=="):
+            self.tokens.append(TokenLex("<booleanas>","==",linha))
             return True
-        elif (buffer == "+" or buffer == "-" or buffer == "*" or buffer == "/"):
-            self.tokens.append(TokenLex("<aritmeticas>","+, -, *, /",linha))
+        elif (buffer == "!="):
+            self.tokens.append(TokenLex("<booleanas>","!=",linha))
+            return True
+        elif (buffer == "<="):
+            self.tokens.append(TokenLex("<booleanas>","<=",linha))
+            return True
+        elif (buffer == ">="):
+            self.tokens.append(TokenLex("<booleanas>",">=",linha))
+            return True
+        elif (buffer == ">"):
+            self.tokens.append(TokenLex("<booleanas>",">",linha))
+            return True
+        elif (buffer == "<"):
+            self.tokens.append(TokenLex("<booleanas>","<",linha))
+            return True
+
+        elif (buffer == "+"):
+            self.tokens.append(TokenLex("<aritmeticas>","+",linha))
+            return True
+        elif (buffer == "-"):
+            self.tokens.append(TokenLex("<aritmeticas>","-",linha))
+            return True
+        elif (buffer == "*"):
+            self.tokens.append(TokenLex("<aritmeticas>","*",linha))
+            return True
+        elif (buffer == "/"):
+            self.tokens.append(TokenLex("<aritmeticas>","/",linha))
             return True
         elif (buffer == "="):
             self.tokens.append(TokenLex("<atribuicao>","=",linha))
