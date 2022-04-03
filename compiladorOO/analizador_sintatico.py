@@ -65,9 +65,11 @@ class AnalizadorSintatico:
             self.bloco()
         elif(token_.nome == "<parar>"):
             self.match("<parar>")
+            self.match("<fim_comando>")
             self.bloco()
         elif(token_.nome == "<continuar>"):
             self.match("<continuar>")
+            self.match("<fim_comando>")
             self.bloco()
         else:
             #print('\033[93m' + "BLOCO Syntax error line: " + str(token_.linha) + '\033[0m')
@@ -126,14 +128,18 @@ class AnalizadorSintatico:
 
     def expressao_simples(self): #*
         self.match("<variavel>")
-        self.match("<booleanas>")
+        #print(self.lista_tokens[self.look_ahead].nome)
+        if(self.lista_tokens[self.look_ahead].nome == "<booleanas>"):
+            self.match("<booleanas>")
+        #elif(self.lista_tokens[self.look_ahead].nome == "<aritmeticas>"):
+        else:
+            self.match("<aritmeticas>")
         self.match("<variavel>")
-        pass
     
     def condicao(self):
         self.match("<condicao>")
         self.match("<abre_parenteses>")
-        #self.expressao_simples()
+        self.expressao_simples()
         self.match("<fecha_parenteses>")
         self.match("<abre_chaves>")
         self.bloco()
@@ -161,7 +167,11 @@ class AnalizadorSintatico:
     
     def retorno(self):
         self.match("<retorno>")
-        self.match("<variavel>")
+        if(self.lista_tokens[self.look_ahead].nome == "<variavel>"):
+            self.match("<variavel>")
+        #elif(self.lista_tokens[self.look_ahead].nome == "<numerico>"):
+        else:
+            self.match("<numerico>")
         self.match("<fim_comando>")
     
     def procedimento(self):

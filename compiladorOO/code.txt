@@ -1,13 +1,22 @@
 main{
-def soma(int a, int b){
-return a;
-}
-int b = ss;
-a = 56;
-int b = a;
-procedure bb;
-printf(hello);
-while(a < b){
-int c = 0;
-}
+    int a;
+    a = 2;
+    boolean b = true;
+    procedure a;
+
+    def somar(int a){
+        printf(a);
+        while(a == c){
+            continue;
+        }
+    }
+    while(a < b){
+        if(a != b){
+            int a;
+        }
+        else{
+            return a;
+        }
+        break;
+    }
 }
