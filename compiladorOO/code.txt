@@ -1,6 +1,8 @@
 main{
     int a;
     a = 2;
+    int teste;
+    boolean sol;
     boolean b = true;
     procedure a;
 

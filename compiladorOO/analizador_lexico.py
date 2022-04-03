@@ -1,4 +1,5 @@
 from token_lex import TokenLex
+from simbolo import Simbolo
 
 class AnalizadorLexico:
 
@@ -145,9 +146,16 @@ class AnalizadorLexico:
                     continue
                 else:
                     return False
-            t = TokenLex("<variavel>",buffer,linha)
-            self.tokens.append(t)
-            self.tabela_simbolos[t.lexema] = t
+
+            last_token = self.tokens[len(self.tokens) -1] #pega o ultimo token adicionado
+            if(last_token.nome == "<tipo>"): #adicionando na tabela de simbolos
+                if(last_token.lexema == "int"):
+                    self.tabela_simbolos[buffer] = Simbolo("int",linha)
+                
+                if(last_token.lexema == "boolean"):
+                    self.tabela_simbolos[buffer] = Simbolo("boolean",linha)
+
+            self.tokens.append(TokenLex("<variavel>",buffer,linha))
         else:
             for c in buffer:
                  #print(c)
@@ -163,6 +171,6 @@ class AnalizadorLexico:
             print(t.nome + " " + t.lexema + " " + str(t.linha))
     
     def imprimir_tabela_simbolos(self):
+        print("SIMBOLOS")
         for t in self.tabela_simbolos:
-            #print(self.tabela_simbolos[t].nome +"  ")
-            print(t)
+            print(self.tabela_simbolos[t].tipo + " " + t + " " + str(self.tabela_simbolos[t].linha))
