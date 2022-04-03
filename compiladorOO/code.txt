@@ -6,7 +6,7 @@ main{
 
     def somar(int a){
         printf(a);
-        while(a == c){
+        while(a + b != c){
             continue;
         }
     }

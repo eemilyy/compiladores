@@ -131,10 +131,18 @@ class AnalizadorSintatico:
         #print(self.lista_tokens[self.look_ahead].nome)
         if(self.lista_tokens[self.look_ahead].nome == "<booleanas>"):
             self.match("<booleanas>")
+            self.match("<variavel>")
         #elif(self.lista_tokens[self.look_ahead].nome == "<aritmeticas>"):
         else:
             self.match("<aritmeticas>")
-        self.match("<variavel>")
+            self.match("<variavel>")
+            if(self.lista_tokens[self.look_ahead].nome == "<booleanas>"):
+                self.match("<booleanas>")
+                if(self.lista_tokens[self.look_ahead].nome == "<variavel>"):
+                    self.match("<variavel>")
+                else:
+                    self.match("<numerico>")
+        #self.match("<variavel>")
     
     def condicao(self):
         self.match("<condicao>")
