@@ -1,6 +1,3 @@
-from lib2to3.pgen2 import token
-
-
 class AnalizadorSintatico:
     def __init__(self, lista_tokens):
         self.lista_tokens = lista_tokens
@@ -145,7 +142,7 @@ class AnalizadorSintatico:
         self.match("<abre_chaves>")
         self.bloco()
         self.match("<fecha_chaves>")
-    
+            
     def laco(self):
         self.match("<laco>")
         self.match("<abre_parenteses>")
