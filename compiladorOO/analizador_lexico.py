@@ -5,6 +5,7 @@ class AnalizadorLexico:
     def __init__(self,texto):
         self.texto = texto
         self.tokens = []
+        self.tabela_simbolos = {}
     
     def tokenizar(self, texto):
         buffer = ""
@@ -144,7 +145,9 @@ class AnalizadorLexico:
                     continue
                 else:
                     return False
-            self.tokens.append(TokenLex("<variavel>",buffer,linha))
+            t = TokenLex("<variavel>",buffer,linha)
+            self.tokens.append(t)
+            self.tabela_simbolos[t.lexema] = t
         else:
             for c in buffer:
                  #print(c)
@@ -158,3 +161,8 @@ class AnalizadorLexico:
         #print(self.tokens[3].nome + "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
         for t in self.tokens:
             print(t.nome + " " + t.lexema + " " + str(t.linha))
+    
+    def imprimir_tabela_simbolos(self):
+        for t in self.tabela_simbolos:
+            #print(self.tabela_simbolos[t].nome +"  ")
+            print(t)
