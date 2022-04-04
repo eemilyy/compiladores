@@ -46,8 +46,14 @@ class AnalizadorSintatico:
             self.atribuicao()
             self.bloco()
         elif(token_.nome == "<variavel>"): #Analisar com calma
-            self.match("<variavel>")              
-            self.atribuicao()
+            #print("variavel" + self.lista_tokens[self.look_ahead + 1].nome)
+            if(self.lista_tokens[self.look_ahead + 1].nome == "<abre_parenteses>"):
+                print("funcao")
+                self.funcao()
+                self.match("<fim_comando>")
+            else:
+                self.match("<variavel>")
+                self.atribuicao()
             self.bloco()
         elif(token_.nome == "<declaracao_func>"):
             self.declaracao_funcao()
@@ -77,6 +83,11 @@ class AnalizadorSintatico:
             self.bloco()
         elif(token_.nome == "<variavel>"):
             self.funcao()
+            self.match("<fim_comando>")
+            self.bloco()
+        elif(token_.nome == "<constante>"):
+            self.match("<constante>")
+            self.match("<variavel>")
             self.match("<fim_comando>")
             self.bloco()
         else:

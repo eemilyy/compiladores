@@ -20,6 +20,9 @@ main{
         }
         break;
     }
-    int b = somar(1, 2);
+    int a = soar(1, 3, 4, 5);
+    somar(1, 2);
+
+    const a;
 
 }
