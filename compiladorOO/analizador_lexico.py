@@ -152,8 +152,14 @@ class AnalizadorLexico:
                 if(last_token.lexema == "int"):
                     self.tabela_simbolos[buffer] = Simbolo("int",linha)
                 
-                if(last_token.lexema == "boolean"):
+                elif(last_token.lexema == "boolean"):
                     self.tabela_simbolos[buffer] = Simbolo("boolean",linha)
+
+            elif(last_token.nome == "<declaracao_func>"):
+                self.tabela_simbolos[buffer] = Simbolo("def",linha)
+
+            elif(last_token.nome == "<constante>"):
+                self.tabela_simbolos[buffer] = Simbolo("const",linha)
 
             self.tokens.append(TokenLex("<variavel>",buffer,linha))
         else:

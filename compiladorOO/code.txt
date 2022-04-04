@@ -5,7 +5,6 @@ main{
     boolean sol;
     boolean b = true;
     procedure a;
-
     def somar(int a){
         printf(a);
         while(a + b != 10){
@@ -22,3 +21,5 @@ main{
         break;
     }
 }
+int a;
+ajhdjkfhajsdf
