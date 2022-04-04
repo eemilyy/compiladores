@@ -26,8 +26,7 @@ class AnalizadorLexico:
                         buffer = buffer.strip()
                         self.verifica_palavras_reservadas(buffer, linha_atual)
                         buffer = ""
-                        
-                    
+                                           
                         
             buffer = ""
             linha_atual += 1

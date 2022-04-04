@@ -1,3 +1,7 @@
+from lib2to3.pgen2 import token
+from numpy import block
+
+
 class AnalizadorSintatico:
     def __init__(self, lista_tokens):
         self.lista_tokens = lista_tokens
@@ -10,11 +14,11 @@ class AnalizadorSintatico:
 
     def match(self, terminal):
         if(self.lista_tokens[self.look_ahead].nome == terminal):
-            print("match!: "+ terminal)
+            #print("match!: "+ terminal)
             if(self.look_ahead < len(self.lista_tokens) - 1 ):
                 self.look_ahead += 1
         else:
-            print('\033[91m' + "nao match!: "+ terminal + '\033[0m')
+            print('\033[91m' + "Not Found: "+ terminal + '\033[0m')
             print('\033[91m' + "Syntax error line: " + str(self.lista_tokens[self.look_ahead].linha) + '\033[0m')
 #----------------------------------------------------------------------------------------------------
     def programa(self):
@@ -42,7 +46,7 @@ class AnalizadorSintatico:
             self.atribuicao()
             self.bloco()
         elif(token_.nome == "<variavel>"): #Analisar com calma
-            self.match("<variavel>")                
+            self.match("<variavel>")              
             self.atribuicao()
             self.bloco()
         elif(token_.nome == "<declaracao_func>"):
@@ -71,6 +75,10 @@ class AnalizadorSintatico:
             self.match("<continuar>")
             self.match("<fim_comando>")
             self.bloco()
+        elif(token_.nome == "<variavel>"):
+            self.funcao()
+            self.match("<fim_comando>")
+            self.bloco()
         else:
             #print('\033[93m' + "BLOCO Syntax error line: " + str(token_.linha) + '\033[0m')
             return
@@ -96,7 +104,12 @@ class AnalizadorSintatico:
         if(self.lista_tokens[self.look_ahead].nome != "<variavel>"):
             self.match("<numerico>")
         else:
-            self.match("<variavel>")
+            print(self.lista_tokens[self.look_ahead + 1].nome)
+            if(self.lista_tokens[self.look_ahead + 1].nome == "<abre_parenteses>"):
+                print("entrou funcc!")
+                self.funcao()
+            else:
+                self.match("<variavel>")
         self.match("<fim_comando>")
 
     def funcao(self):
@@ -107,6 +120,7 @@ class AnalizadorSintatico:
 
     def parametros(self):
         token_ = self.lista_tokens[self.look_ahead]
+        print(self.lista_tokens[self.look_ahead].nome)
         #<parametros> ::= <declaracao_variavel> , <parametros> | <declaracao_variavel> | ε
         if(token_.nome == "<tipo>"):
             self.match("<tipo>")
@@ -119,10 +133,21 @@ class AnalizadorSintatico:
             else:
                 return
         elif(token_.nome == "<virgula>"):
-             self.match("<virgula>")
-             self.match("<tipo>")
-             self.match("<variavel>")
-             self.parametros()
+            self.match("<virgula>")
+            if(self.lista_tokens[self.look_ahead].nome != "<variavel>" and self.lista_tokens[self.look_ahead].nome != "<numerico>"):
+                print(self.lista_tokens[self.look_ahead].nome + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+                self.match("<tipo>")
+                self.match("<variavel>")
+                self.parametros()
+            else:
+                self.parametros()
+                
+        elif(token_.nome == "<variavel>"):
+            self.match("<variavel>")
+            self.parametros()
+        elif(token_.nome == "<numerico>"):
+            self.match("<numerico>")
+            self.parametros()
         else:
             return
 

@@ -20,6 +20,6 @@ main{
         }
         break;
     }
+    int b = somar(1, 2);
+
 }
-int a;
-ajhdjkfhajsdf
