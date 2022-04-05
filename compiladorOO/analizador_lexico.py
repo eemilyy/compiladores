@@ -30,6 +30,7 @@ class AnalizadorLexico:
                         
             buffer = ""
             linha_atual += 1
+        self.tokens.append(TokenLex("<EOF>","EOF",(linha_atual + 1)))
 
     
     def verifica_delimitadores(self, p, linha):

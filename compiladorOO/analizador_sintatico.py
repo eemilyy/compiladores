@@ -14,12 +14,13 @@ class AnalizadorSintatico:
 
     def match(self, terminal):
         if(self.lista_tokens[self.look_ahead].nome == terminal):
-            #print("match!: "+ terminal)
-            if(self.look_ahead < len(self.lista_tokens) - 1 ):
+            print("match!: "+ terminal)
+            if(self.look_ahead < len(self.lista_tokens)):
                 self.look_ahead += 1
         else:
             print('\033[91m' + "Not Found: "+ terminal + '\033[0m')
             print('\033[91m' + "Syntax error line: " + str(self.lista_tokens[self.look_ahead].linha) + '\033[0m')
+            #self.look_ahead += 1
 #----------------------------------------------------------------------------------------------------
     def programa(self):
         #look_ahead = self.lista_tokens[self.look_ahead] #busca o token que look_ahead esta apontando
@@ -48,7 +49,7 @@ class AnalizadorSintatico:
         elif(token_.nome == "<variavel>"): #Analisar com calma
             #print("variavel" + self.lista_tokens[self.look_ahead + 1].nome)
             if(self.lista_tokens[self.look_ahead + 1].nome == "<abre_parenteses>"):
-                print("funcao")
+                #print("funcao")
                 self.funcao()
                 self.match("<fim_comando>")
             else:
@@ -114,6 +115,9 @@ class AnalizadorSintatico:
         self.match("<atribuicao>")
         if(self.lista_tokens[self.look_ahead].nome != "<variavel>"):
             self.match("<numerico>")
+            if(self.lista_tokens[self.look_ahead].nome == "<aritmeticas>"):
+                self.match("<aritmeticas>")
+                self.match("<numerico>")
         else:
             print(self.lista_tokens[self.look_ahead + 1].nome)
             if(self.lista_tokens[self.look_ahead + 1].nome == "<abre_parenteses>"):

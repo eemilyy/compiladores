@@ -1,8 +1,28 @@
 main{
-    while(a < b){
+
+    while(a + b != 15){
         continue;
     }
-    procedure teste(int a , int b){
+    def teste(int a , int b){
+        int altura = a;
+        int s = 10;
+        print(altura);
+        return altura;
+    }
+    int a;
+    teste(10, 15);
+    if(teste <= 10){
+        int c;
+    }
+    else{
+        int a = 2 + 2;
+    }
 
-    int altura =  0;
+    procedure mul(int a){
+        c = 2 * 3;
+    }
+    def printar(){
+        printf(a);
+    }
+
 }
