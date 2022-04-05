@@ -73,14 +73,14 @@ class AnalizadorSintatico:
         elif(token_.nome == "<procedimento>"):
             self.procedimento()
             self.bloco()
-        elif(token_.nome == "<parar>"):
-            self.match("<parar>")
-            self.match("<fim_comando>")
-            self.bloco()
-        elif(token_.nome == "<continuar>"):
-            self.match("<continuar>")
-            self.match("<fim_comando>")
-            self.bloco()
+        # elif(token_.nome == "<parar>"):
+        #     self.match("<parar>")
+        #     self.match("<fim_comando>")
+        #     self.bloco()
+        # elif(token_.nome == "<continuar>"):
+        #     self.match("<continuar>")
+        #     self.match("<fim_comando>")
+        #     self.bloco()
         elif(token_.nome == "<variavel>"):
             self.funcao()
             self.match("<fim_comando>")
@@ -203,6 +203,12 @@ class AnalizadorSintatico:
         self.match("<fecha_parenteses>")
         self.match("<abre_chaves>")
         self.bloco()
+        if(self.lista_tokens[self.look_ahead].nome == "<continuar>"):
+            self.match("<continuar>")
+            self.match("<fim_comando>")
+        elif(self.lista_tokens[self.look_ahead].nome == "<parar>"):
+            self.match("<parar>")
+            self.match("<fim_comando>")
         self.match("<fecha_chaves>")
     
     def imprimir(self):

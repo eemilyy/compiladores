@@ -1,28 +1,6 @@
 main{
-    int a;
-    a = 2;
-    int teste;
-    boolean sol;
-    boolean b = true;
-    procedure a;
-    def somar(int a){
-        printf(a);
-        while(a + b != 10){
-            continue;
-        }
-    }
     while(a < b){
-        if(a != 3){
-            int a;
-        }
-        else{
-            return a;
-        }
-        break;
+        continue;
     }
-    int a = soar(1, 3, 4, 5);
-    somar(1, 2);
-
-    const a;
 
 }
