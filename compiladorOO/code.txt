@@ -12,7 +12,7 @@ main{
     int a;
     teste(10, 15);
     if(teste <= 10){
-        int c;
+        int c
     }
     else{
         int a = 2 + 2;

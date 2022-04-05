@@ -142,10 +142,11 @@ class AnalizadorLexico:
         if((buffer[0].upper() >= 'A' and buffer[0].upper() <= 'Z')):
             for c in buffer:
                 #print(c)
-                if(c >= 'a' and c <= 'z') or (c >= 'A' and c <= 'Z'):
+                if((c >= 'a' and c <= 'z') or (c >= 'A' and c <= 'Z') or (c >= '0' and c <= '9')):
                     continue
                 else:
-                    return False
+                    print('\033[91m' + "Error line: " + str(linha) + '\033[0m')
+                    quit()
 
             last_token = self.tokens[len(self.tokens) -1] #pega o ultimo token adicionado
             if(last_token.nome == "<tipo>"): #adicionando na tabela de simbolos
@@ -168,7 +169,9 @@ class AnalizadorLexico:
                  if(c >= '0' and c <= '9'):
                      continue
                  else:
-                     return False
+                    print('\033[91m' + "Error line: " + str(linha) + '\033[0m')
+                    quit()
+                    return False
             self.tokens.append(TokenLex("<numerico>",buffer,linha))
 
     def imprimir_lista_tokens(self):
