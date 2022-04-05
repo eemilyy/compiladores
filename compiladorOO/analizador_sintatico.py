@@ -146,7 +146,6 @@ class AnalizadorSintatico:
         elif(token_.nome == "<virgula>"):
             self.match("<virgula>")
             if(self.lista_tokens[self.look_ahead].nome != "<variavel>" and self.lista_tokens[self.look_ahead].nome != "<numerico>"):
-                print(self.lista_tokens[self.look_ahead].nome + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
                 self.match("<tipo>")
                 self.match("<variavel>")
                 self.parametros()
@@ -229,6 +228,8 @@ class AnalizadorSintatico:
     
     def procedimento(self):
         self.match("<procedimento>")
-        self.match("<variavel>")
-        self.match("<fim_comando>")
+        self.funcao()
+        self.match("<abre_chaves>")
+        self.bloco()
+        self.match("<fecha_chaves>")
     

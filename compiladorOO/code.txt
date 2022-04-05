@@ -2,5 +2,7 @@ main{
     while(a < b){
         continue;
     }
+    procedure teste(int a , int b){
 
+    int altura =  0;
 }
