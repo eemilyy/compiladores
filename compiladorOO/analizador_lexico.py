@@ -14,7 +14,7 @@ class AnalizadorLexico:
         #inserir_prox = False
         for linha in texto:
             for i in range(len(linha)):
-                if((i + 1) < len(linha)):
+                if((i + 1) < len(linha)): #saber se a linha chegou no final
                     buffer += linha[i]
                     #if(inserir_prox):
                         #inserir_prox = False
@@ -132,6 +132,12 @@ class AnalizadorLexico:
         elif (buffer == ","):
             self.tokens.append(TokenLex("<virgula>",",",linha))
             return True
+        elif (buffer == "true"):
+            self.tokens.append(TokenLex("<palavraBooleana>","true",linha))
+            return True
+        elif(buffer == "false"):
+            self.tokens.append(TokenLex("<palavraBooleana>","false",linha))
+            return True
         else:
             #print("entrou variavel")
             self.varivel(buffer, linha)
@@ -145,7 +151,7 @@ class AnalizadorLexico:
                 if((c >= 'a' and c <= 'z') or (c >= 'A' and c <= 'Z') or (c >= '0' and c <= '9')):
                     continue
                 else:
-                    print('\033[91m' + "Error line: " + str(linha) + '\033[0m')
+                    print('\033[91m' + "Error variable line: " + str(linha) + '\033[0m')
                     quit()
 
             last_token = self.tokens[len(self.tokens) -1] #pega o ultimo token adicionado

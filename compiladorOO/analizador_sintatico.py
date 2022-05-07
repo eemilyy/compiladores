@@ -43,6 +43,10 @@ class AnalizadorSintatico:
             #     self.atribuicao()
 
             # self.bloco()
+        # elif(token_.lexema == "boolean"):
+        #     print("entrou boolean")
+        #     self.declaracao_variavelBooleana()
+        #     self.bloco()
         elif(token_.nome == "<atribuicao>"):                
             self.atribuicao()
             self.bloco()
@@ -95,10 +99,20 @@ class AnalizadorSintatico:
             #print('\033[93m' + "BLOCO Syntax error line: " + str(token_.linha) + '\033[0m')
             return
 
-    
-    def declaracao_variavel(self):
+    def declaracao_variavelBooleana(self):
         self.match("<tipo>")
         self.match("<variavel>")
+        #self.match("<fim_comando>")
+
+    def declaracao_variavel(self):
+        # if(self.lista_tokens[self.look_ahead].lexema == "boolean"):
+        #     self.declaracao_variavelBooleana()
+        # else:
+        self.match("<tipo>")
+        self.match("<variavel>")
+        # elif(self.lista_tokens[self.look_ahead].lexema == "boolean"):
+        #     self.match("<tipo>")
+        #     self.match("<palavraBooleana>")
 
         #print("DV:  "+ str((self.lista_tokens[self.look_ahead]).nome))
         if(self.lista_tokens[self.look_ahead].nome != "<atribuicao>"):
@@ -113,7 +127,10 @@ class AnalizadorSintatico:
 
     def atribuicao(self):
         self.match("<atribuicao>")
-        if(self.lista_tokens[self.look_ahead].nome != "<variavel>"):
+        #print(self.lista_tokens[self.look_ahead - 3].lexema)
+        if(self.lista_tokens[self.look_ahead - 3].lexema == "boolean"):
+            self.match("<palavraBooleana>")
+        elif(self.lista_tokens[self.look_ahead].nome != "<variavel>"):
             self.match("<numerico>")
             if(self.lista_tokens[self.look_ahead].nome == "<aritmeticas>"):
                 self.match("<aritmeticas>")
