@@ -65,8 +65,11 @@ class AnalizadorLexico:
         elif (buffer == "boolean"):
             self.tokens.append(TokenLex("<tipo>","boolean",linha))
             return True
-        elif (buffer == "def"):
-            self.tokens.append(TokenLex("<declaracao_func>","def",linha))
+        elif (buffer == "$def"):
+            self.tokens.append(TokenLex("<declaracao_func>","$def",linha))
+            return True
+        elif (buffer == "&def"):
+            self.tokens.append(TokenLex("<declaracao_func>","&def",linha))
             return True
         elif (buffer == "procedure"):
             self.tokens.append(TokenLex("<procedimento>","procedure",linha))
