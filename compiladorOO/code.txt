@@ -1,3 +1,4 @@
-main{
-boolean b = t;
+main
+int a = true;
+boolean b = true;
 }

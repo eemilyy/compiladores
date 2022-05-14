@@ -1,9 +1,8 @@
-from lib2to3.pgen2 import token
-from numpy import block
-
+from analizador_semantico import *
 
 class AnalizadorSintatico:
-    def __init__(self, lista_tokens):
+    def __init__(self, lista_tokens, tabela_simbolos):
+        self.tabela_simbolos = tabela_simbolos
         self.lista_tokens = lista_tokens
         self.look_ahead = 0
 
@@ -126,23 +125,26 @@ class AnalizadorSintatico:
         self.match("<fecha_chaves>")
 
     def atribuicao(self):
-        self.match("<atribuicao>")
-        #print(self.lista_tokens[self.look_ahead - 3].lexema)
-        if(self.lista_tokens[self.look_ahead - 3].lexema == "boolean"):
-            self.match("<palavraBooleana>")
-        elif(self.lista_tokens[self.look_ahead].nome != "<variavel>"):
-            self.match("<numerico>")
-            if(self.lista_tokens[self.look_ahead].nome == "<aritmeticas>"):
-                self.match("<aritmeticas>")
+        if verificar_atribuicao(self.lista_tokens, self.tabela_simbolos, self.look_ahead):
+            self.match("<atribuicao>")
+            #print(self.lista_tokens[self.look_ahead - 3].lexema)
+            if(self.lista_tokens[self.look_ahead - 3].lexema == "boolean"):
+                self.match("<palavraBooleana>")
+            elif(self.lista_tokens[self.look_ahead].nome != "<variavel>"):
                 self.match("<numerico>")
-        else:
-            print(self.lista_tokens[self.look_ahead + 1].nome)
-            if(self.lista_tokens[self.look_ahead + 1].nome == "<abre_parenteses>"):
-                print("entrou funcc!")
-                self.funcao()
+                if(self.lista_tokens[self.look_ahead].nome == "<aritmeticas>"):
+                    self.match("<aritmeticas>")
+                    self.match("<numerico>")
             else:
-                self.match("<variavel>")
-        self.match("<fim_comando>")
+                print(self.lista_tokens[self.look_ahead + 1].nome)
+                if(self.lista_tokens[self.look_ahead + 1].nome == "<abre_parenteses>"):
+                    print("entrou funcc!")
+                    self.funcao()
+                else:
+                    self.match("<variavel>")
+            self.match("<fim_comando>")
+        else:
+            exit()
 
     def funcao(self):
         self.match("<variavel>")
