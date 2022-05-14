@@ -1,4 +1,11 @@
-main
-int a = true;
-boolean b = true;
+main{
+    boolean a = true;
+    boolean b;
+    b = a;
+    int c = 10;
+    int d;
+    d = c;
+    if(c == b){
+        a = d;
+    }
 }
