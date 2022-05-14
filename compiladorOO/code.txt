@@ -1,11 +1,6 @@
 main{
-    boolean a = true;
-    boolean b;
-    b = a;
-    int c = 10;
-    int d;
-    d = c;
-    if(c == b){
-        a = d;
+    boolean a;
+    while(a == false){
+        int b;
     }
 }

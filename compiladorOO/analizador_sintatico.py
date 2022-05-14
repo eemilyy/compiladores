@@ -128,7 +128,10 @@ class AnalizadorSintatico:
         if verificar_atribuicao(self.lista_tokens, self.tabela_simbolos, self.look_ahead):
             self.match("<atribuicao>")
             #print(self.lista_tokens[self.look_ahead - 3].lexema)
-            if(self.lista_tokens[self.look_ahead - 3].lexema == "boolean"):
+            # if(self.lista_tokens[self.look_ahead - 3].lexema == "boolean"):
+            #     self.match("<palavraBooleana>")
+            print(self.lista_tokens[self.look_ahead].nome)
+            if(self.lista_tokens[self.look_ahead].nome == "<palavraBooleana>"):
                 self.match("<palavraBooleana>")
             elif(self.lista_tokens[self.look_ahead].nome != "<variavel>"):
                 self.match("<numerico>")
@@ -185,25 +188,32 @@ class AnalizadorSintatico:
             return
 
     def expressao_simples(self): #*
-        self.match("<variavel>")
-        #print(self.lista_tokens[self.look_ahead].nome)
-        if(self.lista_tokens[self.look_ahead].nome == "<booleanas>"):
-            self.match("<booleanas>")
-            if(self.lista_tokens[self.look_ahead].nome == "<variavel>"):
-                self.match("<variavel>")
-            else:
-                self.match("<numerico>")
-        #elif(self.lista_tokens[self.look_ahead].nome == "<aritmeticas>"):
-        else:
-            self.match("<aritmeticas>")
-            self.match("<variavel>")
+        #self.match("<variavel>")
+        print("EXPRESSAO" + str(self.lista_tokens[self.look_ahead].nome))
+        if verificar_expressao(self.lista_tokens, self.tabela_simbolos, self.look_ahead): ## VERIFICO SE A EXPRESSÃO ESTA CORRETA
+        #if(self.lista_tokens[self.look_ahead].nome == "<palavraBooleana>" or self.lista_tokens[self.look_ahead].nome == "<numerico>" or self.lista_tokens[self.look_ahead].nome == "<variavel>"):
+            #print(self.lista_tokens[self.look_ahead].nome)
+            print("entrou expressao")
+            self.match(self.lista_tokens[self.look_ahead].nome) #SE ENTROU NO IF ELE ACEITA QUALQUER COISA QUE VIER
             if(self.lista_tokens[self.look_ahead].nome == "<booleanas>"):
                 self.match("<booleanas>")
                 if(self.lista_tokens[self.look_ahead].nome == "<variavel>"):
                     self.match("<variavel>")
+                elif(self.lista_tokens[self.look_ahead].nome == "<palavraBooleana>"):
+                    self.match("<palavraBooleana>")
                 else:
                     self.match("<numerico>")
-        #self.match("<variavel>")
+            #elif(self.lista_tokens[self.look_ahead].nome == "<aritmeticas>"):
+            else:
+                self.match("<aritmeticas>")
+                self.match("<variavel>")
+                if(self.lista_tokens[self.look_ahead].nome == "<booleanas>"):
+                    self.match("<booleanas>")
+                    if(self.lista_tokens[self.look_ahead].nome == "<variavel>"):
+                        self.match("<variavel>")
+                    else:
+                        self.match("<numerico>")
+            #self.match("<variavel>")
     
     def condicao(self):
         self.match("<condicao>")
