@@ -1,6 +1,12 @@
 main{
-    boolean a;
-    while(a == false){
-        int b;
+    &def soma(){
+        return a;
     }
+
+    $def soma2(){
+        return a;
+    }
+
+    int a = soma2();
+    boolean b = soma();
 }

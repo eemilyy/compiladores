@@ -165,8 +165,11 @@ class AnalizadorLexico:
                 elif(last_token.lexema == "boolean"):
                     self.tabela_simbolos[buffer] = Simbolo("boolean",linha)
 
-            elif(last_token.nome == "<declaracao_func>"):
-                self.tabela_simbolos[buffer] = Simbolo("def",linha)
+            elif(last_token.lexema == "$def"):
+                self.tabela_simbolos[buffer] = Simbolo("$def",linha)
+
+            elif(last_token.lexema == "&def"):
+                self.tabela_simbolos[buffer] = Simbolo("&def",linha)   
 
             elif(last_token.nome == "<constante>"):
                 self.tabela_simbolos[buffer] = Simbolo("const",linha)

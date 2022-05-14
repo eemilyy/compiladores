@@ -14,17 +14,22 @@ def verificar_atribuicao(lista_tokens, tabela_simbolos, look_ahead):
         #print(tipo)
         if(tipo == "int"):
             return True
+        elif(tipo == "$def"):
+            return True
         else:
             print('\033[91m' + "Semantic error in line {0}".format(lista_tokens[look_ahead - 2].linha) + '\033[0m') #DETALHAR ERRO
             return False
-    # elif lista_tokens[look_ahead - 2].lexema == "boolean" and lista_tokens[look_ahead + 1].nome == "<variavel>":
-    #     tipo = get_tipo(lista_tokens[look_ahead + 1].lexema, tabela_simbolos)
-    #     #print(tipo)
-    #     if(tipo == "boolean"):
-    #         return True
-    #     else:
-    #         print('\033[91m' + "Semantic error in line {0}".format(lista_tokens[look_ahead - 2].linha) + '\033[0m') #DETALHAR ERRO
-    #         return False
+
+    elif lista_tokens[look_ahead - 2].lexema == "boolean" and lista_tokens[look_ahead + 1].nome == "<variavel>":
+        tipo = get_tipo(lista_tokens[look_ahead + 1].lexema, tabela_simbolos)
+        #print(tipo)
+        if(tipo == "boolean"):
+            return True
+        elif tipo == "&def":
+            return True
+        else:
+            print('\033[91m' + "Semantic error in line {0}".format(lista_tokens[look_ahead - 2].linha) + '\033[0m') #DETALHAR ERRO
+            return False
     elif lista_tokens[look_ahead - 2].nome == "<fim_comando>": # DECLARAÇÃO SEM SER DIRETA, EX: a = b;
         print(lista_tokens[look_ahead + 1].lexema)
         tipo = get_tipo(lista_tokens[look_ahead + 1].lexema, tabela_simbolos)
