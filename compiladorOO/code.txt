@@ -1,6 +1,5 @@
 main{
-    boolean a;
-    while(a == false){
-        int b;
-    }
+    int a;
+    boolean b;
+    c = b;
 }
