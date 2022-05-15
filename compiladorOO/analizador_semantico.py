@@ -1,7 +1,10 @@
 def get_tipo(variavel, tabela_simbolos):
     if variavel in tabela_simbolos:
         #print(tabela_simbolos[variavel].tipo)
-        return tabela_simbolos[variavel].tipo
+        if(tabela_simbolos[variavel].linha < tabela_simbolos[variavel].linha):
+            return tabela_simbolos[variavel].tipo
+        else:
+            return False
     return False
 
 
