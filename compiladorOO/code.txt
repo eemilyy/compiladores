@@ -1,5 +1,6 @@
 main{
-    a = 10;
     int a;
+    a = b;
+    int b;
 
 }
