@@ -1,5 +1,12 @@
 main{
-    int a;
-    boolean b;
-    c = b;
+    &def soma(){
+        return a;
+    }
+
+    $def soma2(){
+        return a;
+    }
+
+    int a = soma2();
+    boolean b = soma();
 }
