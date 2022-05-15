@@ -1,12 +1,10 @@
 main{
-    &def soma(){
-        return a;
+    int a;
+    boolean b;
+    if(a - 10 == b){
+        int c;
     }
-
-    $def soma2(){
-        return a;
+    else{
+        int d;
     }
-
-    int a = soma2();
-    boolean b = soma();
 }
