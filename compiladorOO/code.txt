@@ -1,6 +1,9 @@
 main{
     int a;
-    a = b;
-    int b;
+    const b;
 
+    &def soma(){
+    }
+
+    int soma;
 }

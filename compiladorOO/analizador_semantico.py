@@ -1,3 +1,6 @@
+from joblib import PrintTime
+
+
 def get_tipo(variavel, tabela_simbolos):
     if variavel.lexema in tabela_simbolos:
         #print(tabela_simbolos[variavel].tipo)
@@ -55,12 +58,14 @@ def verificar_atribuicao(lista_tokens, tabela_simbolos, look_ahead):
                     print('\033[91m' + "Semantic error in line {0}, Incompatible types, expected {1} but receive {2}".format(lista_tokens[look_ahead - 2].linha, tipoAtribuicao, tipo ) + '\033[0m') #DETALHAR ERRO
                     return False
         else:
-            if not tipoAtribuicao or not tipo:
+            if lista_tokens[look_ahead + 1].nome == "<numerico>": #AGORA ACEITA SER UMA DECLARAÇÇÃO DO TIPO a = 10;
+                return True
+            elif not tipoAtribuicao or not tipo:
+                print("erro 62")
                 print('\033[91m' + "Semantic error in line {0}, uninitialized variable".format(lista_tokens[look_ahead - 2].linha) + '\033[0m') #DETALHAR ERRO
                 return False
-            elif lista_tokens[look_ahead + 1].nome == "<numerico>": #AGORA ACEITA SER UMA DECLARAÇÇÃO DO TIPO a = 10;
-                return True
             else:
+                print("erro 64")
                 print('\033[91m' + "Semantic error in line {0}, uninitialized variable".format(lista_tokens[look_ahead - 2].linha) + '\033[0m') #DETALHAR ERRO
                 return False
         
@@ -124,3 +129,5 @@ def verificar_expressao(lista_tokens, tabela_simbolos, look_ahead):
         print('\033[91m' + "Semantic error line: {0}, uninitialized variable".format(lista_tokens[look_ahead - 2].linha) + '\033[0m')
         return False
 
+def verificar_parametros():
+    pass

@@ -158,23 +158,28 @@ class AnalizadorLexico:
                     quit()
 
             last_token = self.tokens[len(self.tokens) -1] #pega o ultimo token adicionado
-            if(last_token.nome == "<tipo>"): #adicionando na tabela de simbolos
-                if(last_token.lexema == "int"):
-                    self.tabela_simbolos[buffer] = Simbolo("int",linha)
-                
-                elif(last_token.lexema == "boolean"):
-                    self.tabela_simbolos[buffer] = Simbolo("boolean",linha)
+            if(buffer not in self.tabela_simbolos): ##### VERIFICA SE A VARIAVEL JÁ EXISTE NA LISTA
+                if(last_token.nome == "<tipo>"): #adicionando na tabela de simbolos
+                        if(last_token.lexema == "int"):
+                            self.tabela_simbolos[buffer] = Simbolo("int",linha)
+                        
+                        elif(last_token.lexema == "boolean"):
+                            self.tabela_simbolos[buffer] = Simbolo("boolean",linha)
+                        
 
-            elif(last_token.lexema == "$def"):
-                self.tabela_simbolos[buffer] = Simbolo("$def",linha)
+                elif(last_token.lexema == "$def"):
+                    self.tabela_simbolos[buffer] = Simbolo("$def",linha)
 
-            elif(last_token.lexema == "&def"):
-                self.tabela_simbolos[buffer] = Simbolo("&def",linha)   
+                elif(last_token.lexema == "&def"):
+                    self.tabela_simbolos[buffer] = Simbolo("&def",linha)   
 
-            elif(last_token.nome == "<constante>"):
-                self.tabela_simbolos[buffer] = Simbolo("const",linha)
+                elif(last_token.nome == "<constante>"):
+                    self.tabela_simbolos[buffer] = Simbolo("const",linha)
 
-            self.tokens.append(TokenLex("<variavel>",buffer,linha))
+                self.tokens.append(TokenLex("<variavel>",buffer,linha))
+            else:
+                print('\033[91m' + "Error variable {0} already exists: ".format(buffer) + '\033[0m')
+                quit()
         else:
             for c in buffer:
                  #print(c)

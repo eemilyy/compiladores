@@ -156,6 +156,7 @@ class AnalizadorSintatico:
         self.match("<fecha_parenteses>")
 
     def parametros(self):
+        
         token_ = self.lista_tokens[self.look_ahead]
         print(self.lista_tokens[self.look_ahead].nome)
         #<parametros> ::= <declaracao_variavel> , <parametros> | <declaracao_variavel> | ε
