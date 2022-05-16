@@ -178,8 +178,12 @@ class AnalizadorLexico:
 
                 self.tokens.append(TokenLex("<variavel>",buffer,linha))
             else:
-                print('\033[91m' + "Error variable {0} already exists: ".format(buffer) + '\033[0m')
-                quit()
+                print(self.tokens[len(self.tokens) -1].nome)
+                if(self.tokens[len(self.tokens) -1].nome != "<tipo>"):
+                    self.tokens.append(TokenLex("<variavel>",buffer,linha))
+                else:
+                    print('\033[91m' + "Error variable {0} already exists: ".format(buffer) + '\033[0m')
+                    quit()
         else:
             for c in buffer:
                  #print(c)
