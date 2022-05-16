@@ -1,6 +1,4 @@
 main{
-    int a;
-    boolean b;
-
-    int c = a;
+    $def a(){}
+    int b = a();
 }
