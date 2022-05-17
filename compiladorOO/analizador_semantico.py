@@ -132,7 +132,7 @@ def verificar_expressao(lista_tokens, tabela_simbolos, look_ahead):
 def verificar_procedimento(lista_tokens, tabela_simbolos, look_ahead):
     while(lista_tokens[look_ahead].nome != "<fecha_chaves>"):
         if(lista_tokens[look_ahead].nome == "<retorno>"):
-            print('\033[91m' + "Semantic error line: {0}, Procedure have return".format(lista_tokens[look_ahead - 2].linha) + '\033[0m')
+            print('\033[91m' + "Semantic error line: {0}, procedure must have no return".format(lista_tokens[look_ahead - 2].linha) + '\033[0m')
             return False
         look_ahead += 1
     return True

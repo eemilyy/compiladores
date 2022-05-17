@@ -1,5 +1,4 @@
 main{
-    &def soma(int a){
-        return a;
-    }
+    int c;
+    int b = c + 20;
 }
