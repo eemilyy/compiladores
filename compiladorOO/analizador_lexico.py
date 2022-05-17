@@ -175,10 +175,13 @@ class AnalizadorLexico:
 
                 elif(last_token.nome == "<constante>"):
                     self.tabela_simbolos[buffer] = Simbolo("const",linha)
+                #print("NOME DO ANTERIOR" + str(self.tokens[len(self.tokens) -1].nome))
+                elif(self.tokens[len(self.tokens) -1].nome == "<abre_parenteses>" or self.tokens[len(self.tokens) -1].nome == "<virgula>"):
+                    print('\033[91m' + "Error variable {0} uninitialized ".format(buffer) + '\033[0m')
+                    quit()
 
                 self.tokens.append(TokenLex("<variavel>",buffer,linha))
             else:
-                print(self.tokens[len(self.tokens) -1].nome)
                 if(self.tokens[len(self.tokens) -1].nome != "<tipo>" and self.tokens[len(self.tokens) -1].nome != "<constante>" and self.tokens[len(self.tokens) -1].nome != "<declaracao_func>") :
                     self.tokens.append(TokenLex("<variavel>",buffer,linha))
                 else:

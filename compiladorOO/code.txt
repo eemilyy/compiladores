@@ -1,4 +1,5 @@
 main{
-    $def a(){}
-    int b = a();
+    &def soma(int a){
+        return a;
+    }
 }

@@ -71,9 +71,9 @@ class AnalizadorSintatico:
         elif(token_.nome == "<imprimir>"):
             self.imprimir()
             self.bloco()
-        elif(token_.nome == "<retorno>"):
-            self.retorno()
-            self.bloco()
+        # elif(token_.nome == "<retorno>"): #TESTANDO RETORNO APENAS DENTRO DE DEF
+        #     self.retorno()
+        #     self.bloco()
         elif(token_.nome == "<procedimento>"):
             self.procedimento()
             self.bloco()
@@ -122,6 +122,7 @@ class AnalizadorSintatico:
         self.funcao()
         self.match("<abre_chaves>")
         self.bloco()
+        self.retorno()
         self.match("<fecha_chaves>")
 
     def atribuicao(self):
@@ -259,8 +260,8 @@ class AnalizadorSintatico:
     def retorno(self):
         self.match("<retorno>")
         if(self.lista_tokens[self.look_ahead].nome == "<variavel>"):
-            self.match("<variavel>")
-        #elif(self.lista_tokens[self.look_ahead].nome == "<numerico>"):
+            if(verificar_retorno_variavel(self.lista_tokens, self.tabela_simbolos, self.look_ahead)):
+                self.match("<variavel>")
         else:
             self.match("<numerico>")
         self.match("<fim_comando>")
@@ -269,6 +270,7 @@ class AnalizadorSintatico:
         self.match("<procedimento>")
         self.funcao()
         self.match("<abre_chaves>")
-        self.bloco()
+        if(verificar_procedimento(self.lista_tokens, self.tabela_simbolos, self.look_ahead)):
+            self.bloco()
         self.match("<fecha_chaves>")
     

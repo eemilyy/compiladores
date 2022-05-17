@@ -129,5 +129,17 @@ def verificar_expressao(lista_tokens, tabela_simbolos, look_ahead):
         print('\033[91m' + "Semantic error line: {0}, uninitialized variable".format(lista_tokens[look_ahead - 2].linha) + '\033[0m')
         return False
 
-def verificar_parametros():
-    pass
+def verificar_procedimento(lista_tokens, tabela_simbolos, look_ahead):
+    while(lista_tokens[look_ahead].nome != "<fecha_chaves>"):
+        if(lista_tokens[look_ahead].nome == "<retorno>"):
+            print('\033[91m' + "Semantic error line: {0}, Procedure have return".format(lista_tokens[look_ahead - 2].linha) + '\033[0m')
+            return False
+        look_ahead += 1
+    return True
+
+def verificar_retorno_variavel(lista_tokens, tabela_simbolos, look_ahead):
+    if(get_tipo(lista_tokens[look_ahead], tabela_simbolos)):
+        return True
+    else:
+        print('\033[91m' + "Semantic error line: {0}, uninitialized variable".format(lista_tokens[look_ahead - 2].linha) + '\033[0m')
+        return False
