@@ -175,7 +175,6 @@ class AnalizadorLexico:
 
                 elif(last_token.nome == "<constante>"):
                     self.tabela_simbolos[buffer] = Simbolo("const",linha)
-                #print("NOME DO ANTERIOR" + str(self.tokens[len(self.tokens) -1].nome))
                 elif(self.tokens[len(self.tokens) -1].nome == "<abre_parenteses>" or self.tokens[len(self.tokens) -1].nome == "<virgula>"):
                     print('\033[91m' + "Error variable {0} uninitialized ".format(buffer) + '\033[0m')
                     quit()
@@ -199,7 +198,6 @@ class AnalizadorLexico:
             self.tokens.append(TokenLex("<numerico>",buffer,linha))
 
     def imprimir_lista_tokens(self):
-        #print(self.tokens[3].nome + "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
         for t in self.tokens:
             print(t.nome + " " + t.lexema + " " + str(t.linha))
     

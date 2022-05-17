@@ -34,25 +34,12 @@ class AnalizadorSintatico:
         if(token_.nome == "<tipo>"):
             self.declaracao_variavel()
             self.bloco()
-            # token_ = self.lista_tokens[self.look_ahead]
-            # print("VOLTOU" + token_.nome)
-            # if(token_.nome != "<fim_comando>"):
-            #     self.match("<fim_comando>")
-            # elif(token_.nome == "<atribuicao>"):                
-            #     self.atribuicao()
 
-            # self.bloco()
-        # elif(token_.lexema == "boolean"):
-        #     print("entrou boolean")
-        #     self.declaracao_variavelBooleana()
-        #     self.bloco()
         elif(token_.nome == "<atribuicao>"):                
             self.atribuicao()
             self.bloco()
         elif(token_.nome == "<variavel>"): #Analisar com calma
-            #print("variavel" + self.lista_tokens[self.look_ahead + 1].nome)
             if(self.lista_tokens[self.look_ahead + 1].nome == "<abre_parenteses>"):
-                #print("funcao")
                 self.funcao()
                 self.match("<fim_comando>")
             else:
@@ -77,14 +64,6 @@ class AnalizadorSintatico:
         elif(token_.nome == "<procedimento>"):
             self.procedimento()
             self.bloco()
-        # elif(token_.nome == "<parar>"):
-        #     self.match("<parar>")
-        #     self.match("<fim_comando>")
-        #     self.bloco()
-        # elif(token_.nome == "<continuar>"):
-        #     self.match("<continuar>")
-        #     self.match("<fim_comando>")
-        #     self.bloco()
         elif(token_.nome == "<variavel>"):
             self.funcao()
             self.match("<fim_comando>")
@@ -104,16 +83,8 @@ class AnalizadorSintatico:
         #self.match("<fim_comando>")
 
     def declaracao_variavel(self):
-        # if(self.lista_tokens[self.look_ahead].lexema == "boolean"):
-        #     self.declaracao_variavelBooleana()
-        # else:
         self.match("<tipo>")
         self.match("<variavel>")
-        # elif(self.lista_tokens[self.look_ahead].lexema == "boolean"):
-        #     self.match("<tipo>")
-        #     self.match("<palavraBooleana>")
-
-        #print("DV:  "+ str((self.lista_tokens[self.look_ahead]).nome))
         if(self.lista_tokens[self.look_ahead].nome != "<atribuicao>"):
             self.match("<fim_comando>")
 
@@ -128,24 +99,27 @@ class AnalizadorSintatico:
     def atribuicao(self):
         if verificar_atribuicao(self.lista_tokens, self.tabela_simbolos, self.look_ahead):
             self.match("<atribuicao>")
-            #print(self.lista_tokens[self.look_ahead - 3].lexema)
-            # if(self.lista_tokens[self.look_ahead - 3].lexema == "boolean"):
-            #     self.match("<palavraBooleana>")
-            print(self.lista_tokens[self.look_ahead].nome)
             if(self.lista_tokens[self.look_ahead].nome == "<palavraBooleana>"):
                 self.match("<palavraBooleana>")
             elif(self.lista_tokens[self.look_ahead].nome != "<variavel>"):
                 self.match("<numerico>")
                 if(self.lista_tokens[self.look_ahead].nome == "<aritmeticas>"):
                     self.match("<aritmeticas>")
-                    self.match("<numerico>")
+                    if(self.lista_tokens[self.look_ahead].nome == "<numerico>"):
+                        self.match("<numerico>")
+                    else:
+                        self.match("<variavel>")
             else:
-                print(self.lista_tokens[self.look_ahead + 1].nome)
                 if(self.lista_tokens[self.look_ahead + 1].nome == "<abre_parenteses>"):
-                    print("entrou funcc!")
                     self.funcao()
                 else:
                     self.match("<variavel>")
+                    if(self.lista_tokens[self.look_ahead].nome == "<aritmeticas>"):
+                        self.match("<aritmeticas>")
+                        if(self.lista_tokens[self.look_ahead].nome == "<numerico>"):
+                            self.match("<numerico>")
+                        else:
+                            self.match("<variavel>")
             self.match("<fim_comando>")
         else:
             exit()
@@ -159,15 +133,11 @@ class AnalizadorSintatico:
     def parametros(self):
         
         token_ = self.lista_tokens[self.look_ahead]
-        print(self.lista_tokens[self.look_ahead].nome)
         #<parametros> ::= <declaracao_variavel> , <parametros> | <declaracao_variavel> | ε
         if(token_.nome == "<tipo>"):
             self.match("<tipo>")
             self.match("<variavel>")
             if(self.lista_tokens[self.look_ahead].nome == "<virgula>"):
-                #self.match("<virgula>")
-                #self.match("<tipo>")
-                #self.match("<variavel>")
                 self.parametros()
             else:
                 return
@@ -190,12 +160,7 @@ class AnalizadorSintatico:
             return
 
     def expressao_simples(self): #*
-        #self.match("<variavel>")
-        print("EXPRESSAO" + str(self.lista_tokens[self.look_ahead].nome))
         if verificar_expressao(self.lista_tokens, self.tabela_simbolos, self.look_ahead): ## VERIFICO SE A EXPRESSÃO ESTA CORRETA
-        #if(self.lista_tokens[self.look_ahead].nome == "<palavraBooleana>" or self.lista_tokens[self.look_ahead].nome == "<numerico>" or self.lista_tokens[self.look_ahead].nome == "<variavel>"):
-            #print(self.lista_tokens[self.look_ahead].nome)
-            print("entrou expressao")
             self.match(self.lista_tokens[self.look_ahead].nome) #SE ENTROU NO IF ELE ACEITA QUALQUER COISA QUE VIER
             if(self.lista_tokens[self.look_ahead].nome == "<booleanas>"):
                 self.match("<booleanas>")
@@ -205,7 +170,6 @@ class AnalizadorSintatico:
                     self.match("<palavraBooleana>")
                 else:
                     self.match("<numerico>")
-            #elif(self.lista_tokens[self.look_ahead].nome == "<aritmeticas>"):
             else:
                 self.match("<aritmeticas>")
                 if(self.lista_tokens[self.look_ahead].nome == "<variavel>"):
@@ -220,8 +184,7 @@ class AnalizadorSintatico:
                         self.match("<variavel>")
                     else:
                         self.match("<numerico>")
-            #self.match("<variavel>")
-    
+
     def condicao(self):
         self.match("<condicao>")
         self.match("<abre_parenteses>")

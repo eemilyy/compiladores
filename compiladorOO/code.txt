@@ -1,4 +1,27 @@
 main{
-    int c;
-    int b = c + 20;
+    $def somar(int a){
+        int r;
+        r = a + 10;
+        return r;
+    }
+
+    int resultado = somar(15);
+
+    int b = 5;
+    if(10 - b == 5){
+        print(5);
+    }else{
+        print(10);
+    }
+
+    procedure proc(){
+        boolean n;
+        print(n);
+    }
+
+    &def verdadeiro(){
+        boolean t = true;
+        return t;
+    }
+
 }
