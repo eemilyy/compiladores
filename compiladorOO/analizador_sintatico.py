@@ -5,11 +5,13 @@ class AnalizadorSintatico:
         self.tabela_simbolos = tabela_simbolos
         self.lista_tokens = lista_tokens
         self.look_ahead = 0
+        self.instrucoes = []
 
     def start(self):
         print("START")
         self.programa()
         print("Fim de compilação")
+        return self.instrucoes
 
     def match(self, terminal):
         if(self.lista_tokens[self.look_ahead].nome == terminal):
@@ -97,6 +99,15 @@ class AnalizadorSintatico:
         self.match("<fecha_chaves>")
 
     def atribuicao(self):
+        look_ahead_aux = self.look_ahead - 1
+        instrucao_aux = []
+        while self.lista_tokens[look_ahead_aux].nome != "<fim_comando>":
+            #if self.lista_tokens[look_ahead_aux].nome != "<palavraBooleana>" :
+            instrucao_aux.append(self.lista_tokens[look_ahead_aux])
+
+            look_ahead_aux += 1
+        self.instrucoes.append(instrucao_aux)
+
         if verificar_atribuicao(self.lista_tokens, self.tabela_simbolos, self.look_ahead):
             self.match("<atribuicao>")
             if(self.lista_tokens[self.look_ahead].nome == "<palavraBooleana>"):
