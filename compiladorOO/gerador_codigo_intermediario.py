@@ -4,14 +4,15 @@ class GeradorCodigoIntermediario:
     def __init__(self, lista_instrucoes):
         self.lista_instrucoes = lista_instrucoes
 
+    def imprimirListainstrucoes(self):
+        for i in range(len(self.lista_instrucoes)):
+            for j in range(len(self.lista_instrucoes[i])):
+                print(self.lista_instrucoes[i][j].lexema, end=" ")
+            print("")
 
     def start(self):
-        for i in range(len(self.lista_instrucoes)):
-            if self.lista_instrucoes[i].nome == "atribuicao":
-                self.gen_attr(self, self.list_instrucoes[i]) #atribuicao
 
-            elif self.lista_instrucoes[i].nome == "condicional":
-                self.gen_if(self, self.list_instrucoes[i])
+        print("hello")
 
     def gen_if(self, instrucao):
         print("funcao para printar if")
