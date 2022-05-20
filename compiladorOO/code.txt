@@ -6,7 +6,8 @@ main{
     }
     boolean x = true;
 
-    int f = 10 + 4 - 50;
+    int f;
+    f = 10 + 10 - a;
     int zz = 3 + 3 * 3 - 4 / 2;
 
     if(a > 10){
@@ -30,5 +31,8 @@ main{
         boolean t = true;
         return t;
     }
+
+    int resultado;
+    resultado = somar(10);
 
 }
