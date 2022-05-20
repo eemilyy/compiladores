@@ -6,11 +6,10 @@ main{
     }
     boolean x = true;
 
-    int f;
-    f = a + 4 - 2;
+    int f = 10 + 4 - 50;
     int zz = 3 + 3 * 3 - 4 / 2;
 
-    if(10 < x){
+    if(a > 10){
         print(5);
     }else{
         print(10);

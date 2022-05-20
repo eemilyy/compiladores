@@ -21,14 +21,26 @@ def verificar_atribuicao(lista_tokens, tabela_simbolos, look_ahead):
             print('\033[91m' + "Semantic error in line {0}".format(lista_tokens[look_ahead - 2].linha) + '\033[0m') #DETALHAR ERRO
             return False
     elif lista_tokens[look_ahead - 2].lexema == "int" and lista_tokens[look_ahead + 1].nome == "<numerico>":
-        if lista_tokens[look_ahead + 2].nome == "<aritmeticas>":
-            if(get_tipo(lista_tokens[look_ahead + 3], tabela_simbolos) == "int"):
-                return True
-            elif(lista_tokens[look_ahead + 3].nome == "<numerico>"):
-                return True
+        # print("entrou if int numerico")
+        # print(lista_tokens[look_ahead + 1].lexema)
+        aux_look_ahead = look_ahead + 2
+        while lista_tokens[aux_look_ahead].nome != "<fim_comando>":
+            if lista_tokens[aux_look_ahead].nome == "<aritmeticas>":
+                #print(get_tipo(lista_tokens[aux_look_ahead + 1], tabela_simbolos))
+                if(get_tipo(lista_tokens[aux_look_ahead + 1], tabela_simbolos) == "int"):
+                    #return True
+                    pass
+                elif(lista_tokens[aux_look_ahead + 1].nome == "<numerico>"):
+                    print("entrou numerico")
+                    #return True
+                    pass
+                else:
+                    print('\033[91m' + "Semantic error in line {0}, atribuição errada".format(lista_tokens[look_ahead - 2].linha) + '\033[0m') #DETALHAR ERRO
+                    return False
             else:
-                print('\033[91m' + "Semantic error in line {0}".format(lista_tokens[look_ahead - 2].linha) + '\033[0m') #DETALHAR ERRO
-                return False
+                break
+            aux_look_ahead += 2  # Incrementa o look_ahead auxiliar
+
         return True
 
     elif lista_tokens[look_ahead - 2].lexema == "boolean" and lista_tokens[look_ahead + 1].nome == "<variavel>":
