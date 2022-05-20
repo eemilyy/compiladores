@@ -115,22 +115,24 @@ class AnalizadorSintatico:
             elif(self.lista_tokens[self.look_ahead].nome != "<variavel>"):
                 self.match("<numerico>")
                 if(self.lista_tokens[self.look_ahead].nome == "<aritmeticas>"):
-                    self.match("<aritmeticas>")
-                    if(self.lista_tokens[self.look_ahead].nome == "<numerico>"):
-                        self.match("<numerico>")
-                    else:
-                        self.match("<variavel>")
+                    while(self.lista_tokens[self.look_ahead].nome == "<aritmeticas>"):
+                        self.match("<aritmeticas>")
+                        if(self.lista_tokens[self.look_ahead].nome == "<numerico>"):
+                            self.match("<numerico>")
+                        else:
+                            self.match("<variavel>")
             else:
                 if(self.lista_tokens[self.look_ahead + 1].nome == "<abre_parenteses>"):
                     self.funcao()
                 else:
                     self.match("<variavel>")
                     if(self.lista_tokens[self.look_ahead].nome == "<aritmeticas>"):
-                        self.match("<aritmeticas>")
-                        if(self.lista_tokens[self.look_ahead].nome == "<numerico>"):
-                            self.match("<numerico>")
-                        else:
-                            self.match("<variavel>")
+                        while(self.lista_tokens[self.look_ahead].nome == "<aritmeticas>"):
+                            self.match("<aritmeticas>")
+                            if(self.lista_tokens[self.look_ahead].nome == "<numerico>"):
+                                self.match("<numerico>")
+                            else:
+                                self.match("<variavel>")
             self.match("<fim_comando>")
         else:
             exit()

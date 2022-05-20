@@ -1,14 +1,16 @@
 main{
     $def somar(int a){
         int r;
-        r = a + 10;
+        r = a + 10 - 15;
         return r;
     }
+    boolean x = true;
 
-    int resultado = somar(15);
+    int f;
+    f = a + 4 - 2;
+    int zz = 3 + 3 * 3 - 4 / 2;
 
-    int b = 5;
-    if(10 - b == 5){
+    if(10 < x){
         print(5);
     }else{
         print(10);
@@ -18,6 +20,12 @@ main{
         boolean n;
         print(n);
     }
+
+    while(a + 10){
+        print(a);
+    }
+
+    proc();
 
     &def verdadeiro(){
         boolean t = true;
