@@ -16,5 +16,5 @@ instrucoes = parser.start() #tradutor recebe uma array de
 
 gen = GeradorCodigoIntermediario(instrucoes)
 
-gen.imprimirListainstrucoes()
+#gen.imprimirListainstrucoes()
 gen.start()

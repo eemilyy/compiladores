@@ -8,7 +8,7 @@ main{
 
     int f;
     f = a + 4 - 2;
-    int zz = 3 + 3 * 3 - 4 / 2;
+    int zz = 3 + 3 * 3 - 4 / 2 + 1;
 
     if(10 < x){
         print(5);
