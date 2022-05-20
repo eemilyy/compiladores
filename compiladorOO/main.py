@@ -12,9 +12,9 @@ lexer.tokenizar(texto)
 lexer.imprimir_lista_tokens()
 lexer.imprimir_tabela_simbolos()
 parser = AnalizadorSintatico(lexer.tokens, lexer.tabela_simbolos)
-tradutor = parser.start() #tradutor recebe uma array de instrucoes
+instrucoes = parser.start() #tradutor recebe uma array de 
 
-for i in range(len(tradutor)):
-    for j in range(len(tradutor[i])):
-        print(tradutor[i][j].lexema, end=" ")
-    print("")
+gen = GeradorCodigoIntermediario(instrucoes)
+
+#gen.imprimirListainstrucoes()
+gen.start()
