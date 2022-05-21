@@ -8,9 +8,9 @@ class AnalizadorSintatico:
         self.instrucoes = []
 
     def start(self):
-        print("START")
+        print('\033[32m' + "START" + '\033[0m')
         self.programa()
-        print("Fim de compilação")
+        print('\033[32m' + "Fim de compilação\n" + '\033[0m')
         return self.instrucoes
 
     def match(self, terminal):
@@ -73,6 +73,14 @@ class AnalizadorSintatico:
         elif(token_.nome == "<constante>"):
             self.match("<constante>")
             self.match("<variavel>")
+            if(verificar_atribuicao(self.lista_tokens, self.tabela_simbolos, self.look_ahead)):
+                self.match("<atribuicao>")
+                if(self.lista_tokens[self.look_ahead].nome == "<palavraBooleana>"):
+                    self.match("<palavraBooleana>")
+                elif(self.lista_tokens[self.look_ahead].nome != "<variavel>"):
+                    self.match("<numerico>")
+            else:
+                quit()
             self.match("<fim_comando>")
             self.bloco()
         else:
@@ -138,6 +146,7 @@ class AnalizadorSintatico:
             exit()
 
     def funcao(self):
+        print(self.lista_tokens[self.look_ahead].lexema)
         self.match("<variavel>")
         self.match("<abre_parenteses>")
         self.parametros()
@@ -259,6 +268,8 @@ class AnalizadorSintatico:
         if(self.lista_tokens[self.look_ahead].nome == "<variavel>"):
             if(verificar_retorno_variavel(self.lista_tokens, self.tabela_simbolos, self.look_ahead)):
                 self.match("<variavel>")
+            else:
+                quit()
         else:
             self.match("<numerico>")
         self.match("<fim_comando>")
@@ -269,5 +280,7 @@ class AnalizadorSintatico:
         self.match("<abre_chaves>")
         if(verificar_procedimento(self.lista_tokens, self.tabela_simbolos, self.look_ahead)):
             self.bloco()
+        else:
+            quit()
         self.match("<fecha_chaves>")
     

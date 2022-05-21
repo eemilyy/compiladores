@@ -18,9 +18,10 @@ def verificar_atribuicao(lista_tokens, tabela_simbolos, look_ahead):
                 if(tipo_recebida == "int"):
                     aux_look_ahead = look_ahead + 2
                     if(lista_tokens[aux_look_ahead].nome == "<aritmeticas>"):
-                        while(lista_tokens[aux_look_ahead].nome != "<fim_comando>"):
+                        while(lista_tokens[aux_look_ahead - 2].nome != "<fim_comando>"):
+                            print("--------------------------------------------------")
                             if lista_tokens[aux_look_ahead].nome == "<aritmeticas>":
-                                 #print(get_tipo(lista_tokens[aux_look_ahead + 1], tabela_simbolos))
+                                print(get_tipo(lista_tokens[aux_look_ahead + 1], tabela_simbolos))
                                 if(get_tipo(lista_tokens[aux_look_ahead + 1], tabela_simbolos) == "int"):
                                     #return True
                                     pass
@@ -41,6 +42,25 @@ def verificar_atribuicao(lista_tokens, tabela_simbolos, look_ahead):
                     print('\033[91m' + "Semantic error in line {0}, type error".format(lista_tokens[look_ahead - 2].linha) + '\033[0m') #DETALHAR ERRO
                     return False
             elif(lista_tokens[look_ahead + 1].nome == "<numerico>"):
+                aux_look_ahead = look_ahead + 2
+                if(lista_tokens[aux_look_ahead].nome == "<aritmeticas>"):
+                    while(lista_tokens[aux_look_ahead - 2].nome != "<fim_comando>"):
+                        print("--------------------------------------------------")
+                        if lista_tokens[aux_look_ahead].nome == "<aritmeticas>":
+                            print(get_tipo(lista_tokens[aux_look_ahead + 1], tabela_simbolos))
+                            if(get_tipo(lista_tokens[aux_look_ahead + 1], tabela_simbolos) == "int"):
+                                #return True
+                                pass
+                            elif(lista_tokens[aux_look_ahead + 1].nome == "<numerico>"):
+                                #return True
+                                pass
+                            else:
+                                print('\033[91m' + "Semantic error in line {0}, arithmetic with wrong values".format(lista_tokens[look_ahead - 2].linha) + '\033[0m') #DETALHAR ERRO
+                                return False
+                        aux_look_ahead += 2
+
+
+
                 return True
             elif not tipo_recebida:
                 print('\033[91m' + "Semantic error in line {0}, variabel {1} undeclared".format(lista_tokens[look_ahead - 1].linha, lista_tokens[look_ahead - 1].lexema) + '\033[0m') #DETALHAR ERRO
@@ -62,6 +82,14 @@ def verificar_atribuicao(lista_tokens, tabela_simbolos, look_ahead):
                 return True
             else:
                 print('\033[91m' + "Semantic error in line {0}, type error".format(lista_tokens[look_ahead - 2].linha) + '\033[0m') #DETALHAR ERRO
+                return False
+        elif(tipo_declarada == "const"):
+            if(lista_tokens[look_ahead + 1].nome == "<numerico>"):
+                return True
+            elif(lista_tokens[look_ahead + 1].nome == "<palavraBooleana>"):
+                return True
+            else:
+                print('\033[91m' + "Semantic error in line {0}, wrong way to declare constant".format(lista_tokens[look_ahead - 2].linha) + '\033[0m') #DETALHAR ERRO
                 return False
     else:
         print('\033[91m' + "Semantic error in line {0}, variabel {1} undeclared".format(lista_tokens[look_ahead - 2].linha, lista_tokens[look_ahead - 1].lexema) + '\033[0m') #DETALHAR ERRO
@@ -168,8 +196,6 @@ def verificar_int(lista_tokens, tabela_simbolos, look_ahead):
 
 
 def verificar_expressao(lista_tokens, tabela_simbolos, look_ahead):
-    print(lista_tokens[look_ahead].lexema)
-
     primeiro_valor = get_tipo(lista_tokens[look_ahead], tabela_simbolos)
     #aritmetica = get_tipo(lista_tokens[look_ahead + 1], tabela_simbolos)
     segundo_valor = get_tipo(lista_tokens[look_ahead + 2], tabela_simbolos)

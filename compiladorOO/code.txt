@@ -8,7 +8,7 @@ main{
     boolean tt = false;
 
     int f;
-    f = 10 + 10 - a;
+    f = 20 + 10 - a;
     int zz = 3 + 3 * 3 - 4 / 2;
 
     if(10 + f == 40){
@@ -22,11 +22,12 @@ main{
         print(n);
     }
 
+
     while(a + 10 == 10){
-        print(a);
+        print(10);
     }
 
-    proc();
+    proc(a);
 
     &def verdadeiro(){
         boolean t = true;

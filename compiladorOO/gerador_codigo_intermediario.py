@@ -15,7 +15,7 @@ class GeradorCodigoIntermediario:
 
     def start(self):
 
-        print("CODIGO INTERMEDIARIO:")
+        print('\033[4m' + "CODIGO INTERMEDIARIO:" + '\033[0m')
         for i in range(len(self.lista_instrucoes)):
             print("")
             if(self.lista_instrucoes[i][1].nome) == "<atribuicao>": 
