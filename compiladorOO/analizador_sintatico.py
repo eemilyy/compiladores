@@ -165,10 +165,14 @@ class AnalizadorSintatico:
                 
         elif(token_.nome == "<variavel>"):
             self.match("<variavel>")
-            self.parametros()
+            if(self.lista_tokens[self.look_ahead].nome == "<virgula>"):
+                self.parametros()
+            return
         elif(token_.nome == "<numerico>"):
             self.match("<numerico>")
-            self.parametros()
+            if(self.lista_tokens[self.look_ahead].nome == "<virgula>"):
+                self.parametros()
+            return
         else:
             return
 

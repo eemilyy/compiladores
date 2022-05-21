@@ -34,6 +34,6 @@ main{
     }
 
     int resultado;
-    resultado = somar(10 20 30);
+    resultado = somar(10, 20, 30);
 
 }
