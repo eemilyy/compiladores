@@ -1,16 +1,18 @@
 main{
-    $def somar(int a){
+    $def somar(){
+        int a;
         int r;
         r = a + 10 - 15;
         return r;
     }
     boolean x = true;
+    boolean tt = false;
 
     int f;
     f = 10 + 10 - a;
     int zz = 3 + 3 * 3 - 4 / 2;
 
-    if(a > 10){
+    if(10 + f == 40){
         print(5);
     }else{
         print(10);
@@ -21,7 +23,7 @@ main{
         print(n);
     }
 
-    while(a + 10){
+    while(a + 10 == 10){
         print(a);
     }
 

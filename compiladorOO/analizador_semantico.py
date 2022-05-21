@@ -1,4 +1,3 @@
-
 def get_tipo(variavel, tabela_simbolos):
     if variavel.lexema in tabela_simbolos:
         if(tabela_simbolos[variavel.lexema].linha <= variavel.linha):
@@ -15,7 +14,6 @@ def verificar_atribuicao(lista_tokens, tabela_simbolos, look_ahead):
 
     if(tipo_declarada):
         if(tipo_declarada == "int"):
-            print("entrou linha 18")
             tipo_recebida = get_tipo(lista_tokens[look_ahead + 1], tabela_simbolos)
             print(tipo_recebida)
             if(tipo_recebida):
@@ -159,52 +157,167 @@ def verificar_atribuicao(lista_tokens, tabela_simbolos, look_ahead):
     #     print('\033[91m' + "Semantic error line: {0}, Incompatible types, expected {1} but receive {2}".format(lista_tokens[look_ahead - 2].linha, lista_tokens[look_ahead - 2].lexema, lista_tokens[look_ahead + 1].lexema) + '\033[0m')
     #     return False
 
+def verificar_int(lista_tokens, tabela_simbolos, look_ahead):
+    ultimo_valor = get_tipo(lista_tokens[look_ahead], tabela_simbolos)
+    if(ultimo_valor == "int"):
+        return True
+    elif(lista_tokens[look_ahead].nome == "<numerico>"):
+        return True
+    elif(not ultimo_valor): ## olhar depois se está correto
+        return True
+    else:
+        print('\033[91m' + "Semantic error line: {0}, expected int but receive boolean".format(lista_tokens[look_ahead].linha) + '\033[0m')
+        return False
+
 
 def verificar_expressao(lista_tokens, tabela_simbolos, look_ahead):
-    tipo = get_tipo(lista_tokens[look_ahead], tabela_simbolos)
-    tipoAtribuicao = get_tipo(lista_tokens[look_ahead + 2], tabela_simbolos)
-    if tipo and tipoAtribuicao:
-        if tipo == "boolean" and lista_tokens[look_ahead + 2].nome == "<palavraBooleana>":
-            if lista_tokens[look_ahead + 3].nome == "<booleanas>":
-                resultado = get_tipo(lista_tokens[look_ahead + 4], tabela_simbolos)
-                if resultado == tipo:
+    print(lista_tokens[look_ahead].lexema)
+
+    primeiro_valor = get_tipo(lista_tokens[look_ahead], tabela_simbolos)
+    #aritmetica = get_tipo(lista_tokens[look_ahead + 1], tabela_simbolos)
+    segundo_valor = get_tipo(lista_tokens[look_ahead + 2], tabela_simbolos)
+    print(primeiro_valor)
+    print(segundo_valor)
+
+    if primeiro_valor and segundo_valor:
+        if(primeiro_valor == "int" and segundo_valor == "int"):
+            if(lista_tokens[look_ahead + 3].nome == "<booleanas>"):
+                if(verificar_int(lista_tokens, tabela_simbolos, look_ahead + 4)):
                     return True
+                # ultimo_valor = get_tipo(lista_tokens[look_ahead + 2], tabela_simbolos)
+                # if(ultimo_valor == "int"):
+                #     return True
+                # elif(lista_tokens[look_ahead + 5].nome == "<numerico>"):
+                #     return True
+                # else:
+                #     print('\033[91m' + "Semantic error line: {0}, Incompatible types of result".format(lista_tokens[look_ahead - 2].linha) + '\033[0m')
+                #     return False
+            else:
+                return True
+        elif(primeiro_valor == "boolean" and segundo_valor == "boolean"):
+            if(lista_tokens[look_ahead + 1].lexema == "!=" or lista_tokens[look_ahead + 1].lexema == "=="):
+                return True
+            else:
+                print('\033[91m' + "Semantic error line: {0}, It is not possible to perform arithmetic operations on boolean values".format(lista_tokens[look_ahead - 2].linha) + '\033[0m')
+                return False
+        else:
+            print('\033[91m' + "Semantic error line: {0}, Incompatible types, expected {1} but receive {2}".format(lista_tokens[look_ahead - 1].linha, primeiro_valor, segundo_valor) + '\033[0m')
+            return False
+    elif(lista_tokens[look_ahead].nome == "<numerico>" and lista_tokens[look_ahead + 2].nome == "<numerico>"):
+        if(verificar_int(lista_tokens, tabela_simbolos, look_ahead + 4)):
+            return True
+        #if(segundo_valor):
+        #if(segundo_valor == "int"):
+        # ultimo_valor = get_tipo(lista_tokens[look_ahead + 2], tabela_simbolos)
+        # if(ultimo_valor == "int"):
+        #     return True
+        # elif(lista_tokens[look_ahead + 5].nome == "<numerico>"):
+        #     return True
+        # else:
+        #     print('\033[91m' + "Semantic error line: {0}, Incompatible types of result".format(lista_tokens[look_ahead - 2].linha) + '\033[0m')
+        #     return False
+    elif(not primeiro_valor or not segundo_valor):
+        if(primeiro_valor):
+            if(primeiro_valor == "int"):
+                if(lista_tokens[look_ahead + 2].nome == "<numerico>"):
+                    if(verificar_int(lista_tokens, tabela_simbolos, look_ahead + 4)):
+                        return True
+
+
+                    # ultimo_valor = get_tipo(lista_tokens[look_ahead + 5], tabela_simbolos)
+
+                    # if(ultimo_valor == "int"):
+                    #     return True
+                    # elif(lista_tokens[look_ahead + 5].nome == "<numerico>"):
+                    #     return True
+                    # # elif(not ultimo_valor):
+                    # #     print("hello")
+                    # #     return True
+                    # else:
+                    #     print('\033[91m' + "Semantic error line: {0}, expected int but receive boolean".format(lista_tokens[look_ahead].linha) + '\033[0m')
+                    #     return False
+
+
                 else:
                     print('\033[91m' + "Semantic error line: {0}, Incompatible types of result".format(lista_tokens[look_ahead - 2].linha) + '\033[0m')
                     return False
-            return True
-        elif (tipo == "int" and lista_tokens[look_ahead + 2].nome == "<numerico>") or (tipo == "int" and tipoAtribuicao == "int"):
-            if lista_tokens[look_ahead + 3].nome == "<booleanas>":
-                resultado = get_tipo(lista_tokens[look_ahead + 4], tabela_simbolos)
-                if resultado:
-                    if resultado == tipo:
-                        return True
+            elif(primeiro_valor == "boolean"):
+                print("entou 230")
+                if(lista_tokens[look_ahead + 1].lexema == "!=" or lista_tokens[look_ahead + 1].lexema == "=="):
+                    if(lista_tokens[look_ahead + 2].nome == "<palavraBooleana>"):
+                        return True                    
                     else:
-                        print('\033[91m' + "Semantic error line: {0}, Incompatible types of result".format(lista_tokens[look_ahead - 2].linha) + '\033[0m')
+                        print('\033[91m' + "Semantic error line: {0}, Incompatible types, expected {1} but receive {2}".format(lista_tokens[look_ahead - 1].linha, primeiro_valor, lista_tokens[look_ahead + 2].nome) + '\033[0m')
                         return False
                 else:
-                    if lista_tokens[look_ahead + 4].nome == "<numerico>":
+                    print('\033[91m' + "Semantic error line: {0}, It is not possible to perform arithmetic operations on boolean values".format(lista_tokens[look_ahead - 2].linha) + '\033[0m')
+                    return False
+            else:
+                print('\033[91m' + "Semantic error line: {0}, Incompatible types of result".format(lista_tokens[look_ahead - 2].linha) + '\033[0m')
+                return False
+        elif(segundo_valor):
+            if(segundo_valor == "int"):
+                if(lista_tokens[look_ahead].nome == "<numerico>"):
+                    if(verificar_int(lista_tokens, tabela_simbolos, look_ahead + 4)):
                         return True
-                    else:
-                        print('\033[91m' + "Semantic error line: {0}, Incompatible types of result".format(lista_tokens[look_ahead - 2].linha) + '\033[0m')
-                        return False
-            return True
-        elif lista_tokens[look_ahead].nome == "<variavel>" or lista_tokens[look_ahead].nome == "<numerico>":
-            if tipo == tipoAtribuicao:
-                return True
-        else:
-            print('\033[91m' + "Semantic error line: {0}, Incompatible types".format(lista_tokens[look_ahead - 2].linha) + '\033[0m')
-            return False
-    elif (not tipo and not tipoAtribuicao) or (not tipo and tipoAtribuicao) or (tipo and not tipoAtribuicao):
-        if lista_tokens[look_ahead + 2].nome == "<numerico>" or lista_tokens[look_ahead].nome == "<numerico>":
-            
-            return True
-        else:
-            print('\033[91m' + "Semantic error line: {0}, uninitialized variable".format(lista_tokens[look_ahead - 2].linha) + '\033[0m')
-            return False
-    else:
-        print('\033[91m' + "Semantic error line: {0}, uninitialized variable".format(lista_tokens[look_ahead - 2].linha) + '\033[0m')
-        return False
+                else:
+                    print('\033[91m' + "Semantic error line: {0}, Incompatible types of result".format(lista_tokens[look_ahead - 2].linha) + '\033[0m')
+                    return False
+            # elif(segundo_valor == "boolean"):
+            #     if(lista_tokens[look_ahead + 2].nome == "<palavraBooleana>"):
+            #         return True
+            #     else:
+            #         print('\033[91m' + "Semantic error line: {0}, Incompatible types, expected {1} but receive {2}".format(lista_tokens[look_ahead - 1].linha, primeiro_valor, lista_tokens[look_ahead + 2].nome) + '\033[0m')
+            #         return False
+            else:
+                print('\033[91m' + "Semantic error line: {0}, Incompatible types of result".format(lista_tokens[look_ahead - 2].linha) + '\033[0m')
+                return False
+
+    # tipo = get_tipo(lista_tokens[look_ahead], tabela_simbolos)
+    # tipoAtribuicao = get_tipo(lista_tokens[look_ahead + 2], tabela_simbolos)
+    # if tipo and tipoAtribuicao:
+    #     if tipo == "boolean" and lista_tokens[look_ahead + 2].nome == "<palavraBooleana>":
+    #         if lista_tokens[look_ahead + 3].nome == "<booleanas>":
+    #             resultado = get_tipo(lista_tokens[look_ahead + 4], tabela_simbolos)
+    #             if resultado == tipo:
+    #                 return True
+    #             else:
+    #                 print('\033[91m' + "Semantic error line: {0}, Incompatible types of result".format(lista_tokens[look_ahead - 2].linha) + '\033[0m')
+    #                 return False
+    #         return True
+    #     elif (tipo == "int" and lista_tokens[look_ahead + 2].nome == "<numerico>") or (tipo == "int" and tipoAtribuicao == "int"):
+    #         if lista_tokens[look_ahead + 3].nome == "<booleanas>":
+    #             resultado = get_tipo(lista_tokens[look_ahead + 4], tabela_simbolos)
+    #             if resultado:
+    #                 if resultado == tipo:
+    #                     return True
+    #                 else:
+    #                     print('\033[91m' + "Semantic error line: {0}, Incompatible types of result".format(lista_tokens[look_ahead - 2].linha) + '\033[0m')
+    #                     return False
+    #             else:
+    #                 if lista_tokens[look_ahead + 4].nome == "<numerico>":
+    #                     return True
+    #                 else:
+    #                     print('\033[91m' + "Semantic error line: {0}, Incompatible types of result".format(lista_tokens[look_ahead - 2].linha) + '\033[0m')
+    #                     return False
+    #         return True
+    #     elif lista_tokens[look_ahead].nome == "<variavel>" or lista_tokens[look_ahead].nome == "<numerico>":
+    #         if tipo == tipoAtribuicao:
+    #             return True
+    #     else:
+    #         print('\033[91m' + "Semantic error line: {0}, Incompatible types".format(lista_tokens[look_ahead - 2].linha) + '\033[0m')
+    #         return False
+    # elif (not tipo and not tipoAtribuicao) or (not tipo and tipoAtribuicao) or (tipo and not tipoAtribuicao):
+    #     if lista_tokens[look_ahead + 2].nome == "<numerico>" or lista_tokens[look_ahead].nome == "<numerico>":            
+    #         return True
+    #     elif lista_tokens[look_ahead + 2].nome == "<palavraBooleana>":
+    #         return True
+    #     else:
+    #         print('\033[91m' + "Semantic error line: {0}, uninitialized variable".format(lista_tokens[look_ahead - 2].linha) + '\033[0m')
+    #         return False
+    # else:
+    #     print('\033[91m' + "Semantic error line: {0}, uninitialized variable".format(lista_tokens[look_ahead - 2].linha) + '\033[0m')
+    #     return False
 
 
 ## --------------------- PROC -----------------------------------------------
