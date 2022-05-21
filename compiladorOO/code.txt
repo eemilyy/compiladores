@@ -34,7 +34,5 @@ main{
         return t;
     }
 
-    int resultado;
-    resultado = somar(10);
 
 }
