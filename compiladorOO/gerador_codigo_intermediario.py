@@ -54,14 +54,27 @@ class GeradorCodigoIntermediario:
             print("")
         else:
             #instrucao.reverse()
-            print("_t0 = {0} {1} {2}".format(instrucao[2].lexema, instrucao[3].lexema, instrucao[4].lexema))
-            anterior = 0
-            i = 5
-            while(i < len(instrucao)):
-                print("_t{0} = _t{1} {2} {3}".format(anterior + 1,anterior,instrucao[i].lexema,instrucao[i+1].lexema))
+            if(instrucao[3].nome == "<abre_parenteses>"):
+                contParam = 0
+                i = 4
+                while(instrucao[i + 1].nome != "<fecha_parenteses>"):
+                    i += 1
+                while(instrucao[i].nome != "<abre_parenteses>"):
+                    print("_p{0} = {1} ".format(contParam,instrucao[i].lexema))
+                    i -= 1
+                    contParam += 1
+                
+                print("{0} = call {1},{2}".format(instrucao[0].lexema, instrucao[2].lexema, contParam))
 
-                anterior += 1
+            else:
+                print("_t0 = {0} {1} {2}".format(instrucao[2].lexema, instrucao[3].lexema, instrucao[4].lexema))
+                anterior = 0
+                i = 5
+                while(i < len(instrucao)):
+                    print("_t{0} = _t{1} {2} {3}".format(anterior + 1,anterior,instrucao[i].lexema,instrucao[i+1].lexema))
 
-                i += 2
+                    anterior += 1
+
+                    i += 2
             
-            print("{0} = _t{1}".format(instrucao[0].lexema,anterior))
+                print("{0} = _t{1}".format(instrucao[0].lexema,anterior))

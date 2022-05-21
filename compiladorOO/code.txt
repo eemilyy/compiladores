@@ -1,5 +1,5 @@
 main{
-    $def somar(int a){
+    $def somar(int a, int b, int c){
         int r;
         r = a + 10 - 15;
         return r;
@@ -33,6 +33,6 @@ main{
     }
 
     int resultado;
-    resultado = somar(10);
+    resultado = somar(10 20 30);
 
 }
