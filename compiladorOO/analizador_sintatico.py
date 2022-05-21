@@ -202,6 +202,15 @@ class AnalizadorSintatico:
             exit()
 
     def condicao(self):
+        look_ahead_aux = self.look_ahead
+        instrucao_aux = []
+        while self.lista_tokens[look_ahead_aux].nome != "<abre_chaves>":
+            #if self.lista_tokens[look_ahead_aux].nome != "<palavraBooleana>" :
+            instrucao_aux.append(self.lista_tokens[look_ahead_aux])
+
+            look_ahead_aux += 1
+        self.instrucoes.append(instrucao_aux)
+
         self.match("<condicao>")
         self.match("<abre_parenteses>")
         self.expressao_simples()
@@ -209,6 +218,11 @@ class AnalizadorSintatico:
         self.match("<abre_chaves>")
         self.bloco()
         self.match("<fecha_chaves>")
+
+
+
+
+        self.instrucoes.append([self.lista_tokens[self.look_ahead],self.lista_tokens[self.look_ahead]])
         self.match("<condicao>")
         self.match("<abre_chaves>")
         self.bloco()
