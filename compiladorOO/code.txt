@@ -1,5 +1,5 @@
 main{
-    $def somar(int a, int b, int c){
+    $def somar(boolean ppk, int a, int b, int c){
         int r;
         r = a + 10 - 15;
         return r;
