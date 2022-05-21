@@ -197,6 +197,9 @@ class AnalizadorSintatico:
                         self.match("<variavel>")
                     else:
                         self.match("<numerico>")
+        else:
+            print('\033[91m' + "Semantic error line: {0}, Incompatible types of result".format(self.lista_tokens[self.look_ahead].linha) + '\033[0m')
+            exit()
 
     def condicao(self):
         look_ahead_aux = self.look_ahead
