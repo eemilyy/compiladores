@@ -1,5 +1,5 @@
 from token_lex import TokenLex
-from simbolo import Simbolo
+from simbolo import *
 
 class AnalizadorLexico:
 
@@ -24,7 +24,7 @@ class AnalizadorLexico:
                     elif(linha[i + 1] == " " or linha[i + 1] == "\n" or linha[i + 1] == "{" or linha[i + 1] == "}" or linha[i + 1] == "(" or linha[i + 1] == ")" or linha[i + 1] == ";" or linha[i + 1] == ","):
                         #inserir_prox = True
                         buffer = buffer.strip()
-                        self.verifica_palavras_reservadas(buffer, linha_atual)
+                        self.verifica_palavras_reservadas(buffer, linha_atual, linha, i)
                         buffer = ""
                                            
                         
@@ -55,7 +55,7 @@ class AnalizadorLexico:
             return False
 
 
-    def verifica_palavras_reservadas(self, buffer, linha):
+    def verifica_palavras_reservadas(self, buffer, linha, texto, i):
         if (buffer == "main"):
             self.tokens.append(TokenLex("<programa>","main",linha))
             return True
@@ -143,10 +143,10 @@ class AnalizadorLexico:
             return True
         else:
             #print("entrou variavel")
-            self.varivel(buffer, linha)
+            self.varivel(buffer, linha , texto, i)
             #return False #não encontrado
 
-    def varivel(self, buffer, linha):   
+    def varivel(self, buffer, linha, texto, i):   
         #print(buffer)
         if((buffer[0].upper() >= 'A' and buffer[0].upper() <= 'Z')):
             for c in buffer:
@@ -168,10 +168,44 @@ class AnalizadorLexico:
                         
 
                 elif(last_token.lexema == "$def"):
-                    self.tabela_simbolos[buffer] = Simbolo("$def",linha)
+                    j = i + 3
+                    listParam = []
+                    qtdParam = 0
+                    
+                    while texto[j]!= ")":
+                        checkInt = texto[j-2] + texto[j-1] + texto[j]
+                        checkBoolean = texto[j-6] + texto[j-5] + texto[j-4]+ texto[j-3]+ texto[j-2]+ texto[j-1]+ texto[j]
+
+                        if(checkInt == "int"):
+                            qtdParam += 1
+                            listParam.append("int")
+                        elif(checkBoolean == "boolean"):
+                            qtdParam += 1
+                            listParam.append("boolean")
+                        j += 1
+
+                    #print("---------------------->" + str(listParam))
+                    self.tabela_simbolos[buffer] = SimboloFunc("$def",linha,qtdParam,listParam)
 
                 elif(last_token.lexema == "&def"):
-                    self.tabela_simbolos[buffer] = Simbolo("&def",linha)   
+                    j = i
+                    listParam = []
+                    qtdParam = 0
+                    
+                    while texto[j]!= ")":
+                        checkInt = texto[j-2] + texto[j-1] + texto[j]
+                        checkBoolean = texto[j-6] + texto[j-5] + texto[j-4]+ texto[j-3]+ texto[j-2]+ texto[j-1]+ texto[j]
+
+                        if(checkInt == "int"):
+                            qtdParam += 1
+                            listParam.append("int")
+                        elif(checkBoolean == "boolean"):
+                            qtdParam += 1
+                            listParam.append("boolean")
+                        j += 1
+
+                    #print("---------------------->" + str(listParam))
+                    self.tabela_simbolos[buffer] = SimboloFunc("&def",linha,qtdParam,listParam)
 
                 elif(last_token.nome == "<constante>"):
                     self.tabela_simbolos[buffer] = Simbolo("const",linha)
@@ -205,4 +239,7 @@ class AnalizadorLexico:
     def imprimir_tabela_simbolos(self):
         print('\033[34m' + "SIMBOLOS" + '\033[0m')
         for t in self.tabela_simbolos:
-            print('\033[34m' + self.tabela_simbolos[t].tipo + " " + t + " " + str(self.tabela_simbolos[t].linha) + '\033[0m')
+            if type(self.tabela_simbolos[t]) is Simbolo:
+                print(self.tabela_simbolos[t].tipo + " " + t + " " + str(self.tabela_simbolos[t].linha))
+            else:
+                print(self.tabela_simbolos[t].tipo + " " + t + " " + str(self.tabela_simbolos[t].linha) + " " + str(self.tabela_simbolos[t].qtdParam) + " " + str(self.tabela_simbolos[t].listParam))
