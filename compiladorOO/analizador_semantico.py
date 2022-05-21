@@ -10,12 +10,10 @@ def get_tipo(variavel, tabela_simbolos):
 def verificar_atribuicao(lista_tokens, tabela_simbolos, look_ahead):
 
     tipo_declarada = get_tipo(lista_tokens[look_ahead - 1], tabela_simbolos)
-    print(tipo_declarada)
 
     if(tipo_declarada):
         if(tipo_declarada == "int"):
             tipo_recebida = get_tipo(lista_tokens[look_ahead + 1], tabela_simbolos)
-            print(tipo_recebida)
             if(tipo_recebida):
                 if(tipo_recebida == "int"):
                     aux_look_ahead = look_ahead + 2
@@ -27,7 +25,6 @@ def verificar_atribuicao(lista_tokens, tabela_simbolos, look_ahead):
                                     #return True
                                     pass
                                 elif(lista_tokens[aux_look_ahead + 1].nome == "<numerico>"):
-                                    print("entrou numerico")
                                     #return True
                                     pass
                                 else:
@@ -176,8 +173,6 @@ def verificar_expressao(lista_tokens, tabela_simbolos, look_ahead):
     primeiro_valor = get_tipo(lista_tokens[look_ahead], tabela_simbolos)
     #aritmetica = get_tipo(lista_tokens[look_ahead + 1], tabela_simbolos)
     segundo_valor = get_tipo(lista_tokens[look_ahead + 2], tabela_simbolos)
-    print(primeiro_valor)
-    print(segundo_valor)
 
     if primeiro_valor and segundo_valor:
         if(primeiro_valor == "int" and segundo_valor == "int"):
@@ -242,7 +237,6 @@ def verificar_expressao(lista_tokens, tabela_simbolos, look_ahead):
                     print('\033[91m' + "Semantic error line: {0}, Incompatible types of result".format(lista_tokens[look_ahead - 2].linha) + '\033[0m')
                     return False
             elif(primeiro_valor == "boolean"):
-                print("entou 230")
                 if(lista_tokens[look_ahead + 1].lexema == "!=" or lista_tokens[look_ahead + 1].lexema == "=="):
                     if(lista_tokens[look_ahead + 2].nome == "<palavraBooleana>"):
                         return True                    
