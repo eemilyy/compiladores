@@ -1,8 +1,11 @@
+from token_lex import TokenLex
 
 class GeradorCodigoIntermediario:
     
     def __init__(self, lista_instrucoes):
         self.lista_instrucoes = lista_instrucoes
+        self.labels = 0
+        self.labelsElse = []
 
     def imprimirListainstrucoes(self):
         for i in range(len(self.lista_instrucoes)):
@@ -14,14 +17,35 @@ class GeradorCodigoIntermediario:
 
         print("CODIGO INTERMEDIARIO:")
         for i in range(len(self.lista_instrucoes)):
+            print("")
             if(self.lista_instrucoes[i][1].nome) == "<atribuicao>": 
-                #print(self.lista_instrucoes[i][1].lexema, end=" ")
+                #print(self.lista_instrucoes[i][1].lexema)
                 self.gen_attr(self.lista_instrucoes[i]) #chamando funcao para gerar codigo para atribuicao
+
+            elif(self.lista_instrucoes[i][0].nome) == "<condicao>":
+                #print(self.lista_instrucoes[i][0].lexema)
+                self.gen_if(self.lista_instrucoes[i])
 
 
 
     def gen_if(self, instrucao):
-        print("funcao para printar if")
+        if(instrucao[0].lexema == "if"):
+            listAux = []
+            listAux.append(TokenLex("_c0","_c0",0))
+            listAux.append(TokenLex("<atribuicao>","=",0))
+            for item in instrucao:
+                if item.lexema not in ["if","(",")"]:
+                    listAux.append(item)
+
+            self.gen_attr(listAux)
+
+            self.labels += 1
+            print("ifFalse _c0 goto: L{0}".format(self.labels))
+            self.labelsElse.append(self.labels)
+
+        else:
+            print("L{0}:".format(self.labelsElse.pop()))
+            #print("else")
 
     def gen_attr(self, instrucao):
         if(len(instrucao) == 3):
@@ -31,10 +55,13 @@ class GeradorCodigoIntermediario:
         else:
             #instrucao.reverse()
             print("_t0 = {0} {1} {2}".format(instrucao[2].lexema, instrucao[3].lexema, instrucao[4].lexema))
-
+            anterior = 0
             i = 5
-            while(i < len(instrucao)-1):
-                print("_t{0} = _t{1} {2} {3}".format(i-4,i-5,instrucao[i].lexema,instrucao[i+1].lexema))
+            while(i < len(instrucao)):
+                print("_t{0} = _t{1} {2} {3}".format(anterior + 1,anterior,instrucao[i].lexema,instrucao[i+1].lexema))
+
+                anterior += 1
+
                 i += 2
             
-            print("{0} = _t{1}".format(instrucao[0].lexema,i-6))
+            print("{0} = _t{1}".format(instrucao[0].lexema,anterior))
