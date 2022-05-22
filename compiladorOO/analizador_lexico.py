@@ -168,7 +168,7 @@ class AnalizadorLexico:
                         
 
                 elif(last_token.lexema == "$def"):
-                    j = i + 3
+                    j = i
                     listParam = []
                     qtdParam = 0
                     
