@@ -29,6 +29,17 @@ class GeradorCodigoIntermediario:
 
             elif(self.lista_instrucoes[i][0].nome) == "<laco>" or self.lista_instrucoes[i][0].nome == "<fecha_chaves>":
                 self.gen_while(self.lista_instrucoes[i])
+            
+            elif(self.lista_instrucoes[i][0].nome) == "<variavel>": #chamada procedure
+                self.gen_call_proc(self.lista_instrucoes[i])
+
+            elif(self.lista_instrucoes[i][0].nome) == "<declaracao_func>":
+                #print("declaracaoooo funcao ---- gen <<<<<<<<<<<<")
+                self.gen_func(self.lista_instrucoes[i])
+
+            elif(self.lista_instrucoes[i][0].nome == "<procedimento>"):
+                #print("declaracao procedimento <-------------------------------------")
+                self.gen_proc(self.lista_instrucoes[i])
 
 
 
@@ -45,12 +56,13 @@ class GeradorCodigoIntermediario:
             self.gen_attr(listAux)
 
             self.labels += 1
-            print("ifFalse _c0 goto: L{0}".format(self.labels))
+            print("ifNot _c0 goto: L{0}".format(self.labels))
             self.labelsElse.append(self.labels)
 
         else:
             print("L{0}:".format(self.labelsElse.pop()))
             #print("else")
+
 
     def gen_while(self, instrucao):
         if(instrucao[0].lexema == "while"):
@@ -61,11 +73,12 @@ class GeradorCodigoIntermediario:
                 if item.lexema not in ["while","(",")"]:
                     listAux.append(item)
 
-            self.gen_attr(listAux)
 
             self.labels += 1
             self.lastLabelWhile = self.labels
             print("L{0}:".format(self.labels))
+            
+            self.gen_attr(listAux)
             print("whileNot _c0 goto: L{0}".format(self.labels + 1))
             self.labelsElse.append(self.labels)
         else:
@@ -106,3 +119,52 @@ class GeradorCodigoIntermediario:
                     i += 2
             
                 print("{0} = _t{1}".format(instrucao[0].lexema,anterior))
+
+    def gen_call_proc(self, instrucao):
+        # for item in instrucao:
+        #     print(item.lexema,end=" ")
+        # print("->>>>>>>>>>>>>> chamada de procedimento")
+
+        contParam = 0
+        i = 2
+        if len(instrucao) > 3:
+            while(instrucao[i + 1].nome != "<fecha_parenteses>"):
+                i += 1
+            while(instrucao[i].nome != "<abre_parenteses>"):
+                if instrucao[i].lexema != ",":
+                    print("_p{0} = {1} ".format(contParam,instrucao[i].lexema))
+                    contParam += 1
+                i -= 1
+        
+        print("call {0},{1}".format(instrucao[0].lexema, contParam))
+
+    def gen_func(self, instrucao):
+        # for item in instrucao:
+        #     print(item.lexema,end=" ")
+        # print("")
+
+        contParam = 0
+        i = 2
+        if len(instrucao) > 3:
+            while(instrucao[i + 1].nome != "<fecha_parenteses>"):
+                i += 1
+            while(instrucao[i].nome != "<abre_parenteses>"):
+                if instrucao[i].lexema not in  [",","int","boolean"]:
+                    print("_p{0} = {1} ".format(contParam,instrucao[i].lexema))
+                    contParam += 1
+                i -= 1
+        print("func {0},{1}:\nbegin_func:".format(instrucao[1].lexema, contParam))
+
+    def gen_proc(self, instrucao):
+        
+        contParam = 0
+        i = 2
+        if len(instrucao) > 3:
+            while(instrucao[i + 1].nome != "<fecha_parenteses>"):
+                i += 1
+            while(instrucao[i].nome != "<abre_parenteses>"):
+                if instrucao[i].lexema not in  [",","int","boolean"]:
+                    print("_p{0} = {1} ".format(contParam,instrucao[i].lexema))
+                    contParam += 1
+                i -= 1
+        print("proc {0},{1}:\nbegin_proc:".format(instrucao[1].lexema, contParam))

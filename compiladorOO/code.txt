@@ -18,7 +18,7 @@ main{
         printf(10);
     }
 
-    procedure proc(){
+    procedure proc(boolean xing, int xong){
         boolean n;
         printf(n);
     }
@@ -29,8 +29,6 @@ main{
         printf(a);
     }
 
-    while(a < 20){
-    }
 
     &def verdadeiro(){
         boolean t = true;
@@ -38,6 +36,8 @@ main{
     }
 
     boolean ddd = verdadeiro();
+
+    proc(a);
 
     int resultado;
     resultado = somar(10, 20, true);

@@ -41,9 +41,17 @@ class AnalizadorSintatico:
         elif(token_.nome == "<atribuicao>"):                
             self.atribuicao()
             self.bloco()
-        elif(token_.nome == "<variavel>"): #Analisar com calma
+        elif(token_.nome == "<variavel>"): #chamada funcao / procedimento
             if(self.lista_tokens[self.look_ahead + 1].nome == "<abre_parenteses>"):
                 if(verificar_parametros(self.lista_tokens, self.tabela_simbolos, self.look_ahead)):
+                    look_ahead_aux = self.look_ahead
+                    instrucao_aux = []
+                    while self.lista_tokens[look_ahead_aux].nome != "<fim_comando>":
+                        instrucao_aux.append(self.lista_tokens[look_ahead_aux])
+                        look_ahead_aux += 1
+                        
+                    self.instrucoes.append(instrucao_aux)
+                    
                     self.funcao()
                     self.match("<fim_comando>")
                 else:
@@ -152,6 +160,20 @@ class AnalizadorSintatico:
             exit()
 
     def funcao(self):
+        look_ahead_aux = self.look_ahead -1
+        instrucao_aux = []
+        if self.lista_tokens[look_ahead_aux].nome == "<declaracao_func>":
+            while self.lista_tokens[look_ahead_aux].nome != "<abre_chaves>":
+                #if self.lista_tokens[look_ahead_aux].nome != "<palavraBooleana>" :
+                instrucao_aux.append(self.lista_tokens[look_ahead_aux])
+
+                look_ahead_aux += 1
+
+            # for item in instrucao_aux:
+            #     print(item.lexema, end=" ")
+            # print("<---------------------------------------------------------------------------")
+            self.instrucoes.append(instrucao_aux)
+
         self.match("<variavel>")
         self.match("<abre_parenteses>")
         self.parametros()
@@ -319,6 +341,21 @@ class AnalizadorSintatico:
         self.match("<fim_comando>")
     
     def procedimento(self):
+        look_ahead_aux = self.look_ahead
+        instrucao_aux = []
+
+        while self.lista_tokens[look_ahead_aux].nome != "<abre_chaves>":
+            #if self.lista_tokens[look_ahead_aux].nome != "<palavraBooleana>" :
+            instrucao_aux.append(self.lista_tokens[look_ahead_aux])
+
+            look_ahead_aux += 1
+
+        for item in instrucao_aux:
+            print(item.lexema, end=" ")
+        print("<---------------------------------------------------------------------------")
+
+        self.instrucoes.append(instrucao_aux)
+
         self.match("<procedimento>")
         self.funcao()
         self.match("<abre_chaves>")
