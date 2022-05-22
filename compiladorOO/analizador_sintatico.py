@@ -181,9 +181,9 @@ class AnalizadorSintatico:
         self.parametros()
         self.match("<fecha_parenteses>")
 
-        if print_end:
-            endFunc = [TokenLex("<end_func>","end_func",0), TokenLex("<end_func>","end_func",0)]
-            self.instrucoes.append(endFunc)
+        
+        # endFunc = [TokenLex("<end_func>","end_func",0), TokenLex("<end_func>","end_func",0)]
+        # self.instrucoes.append(endFunc)
 
 
     def parametros(self):
@@ -337,6 +337,13 @@ class AnalizadorSintatico:
         self.match("<fim_comando>")
     
     def retorno(self):
+        instrucao_aux = []
+
+        instrucao_aux.append(self.lista_tokens[self.look_ahead])
+        instrucao_aux.append(self.lista_tokens[self.look_ahead + 1])
+
+        self.instrucoes.append(instrucao_aux)
+
         self.match("<retorno>")
         if(self.lista_tokens[self.look_ahead].nome == "<variavel>"):
             if(verificar_retorno_variavel(self.lista_tokens, self.tabela_simbolos, self.look_ahead)):
@@ -346,15 +353,16 @@ class AnalizadorSintatico:
         else:
             self.match("<numerico>")
         self.match("<fim_comando>")
+
+        end = [TokenLex("<end_func>","end_func",0), TokenLex("<end_func>","end_func",0)]
+        self.instrucoes.append(end)
     
     def procedimento(self):
         look_ahead_aux = self.look_ahead
         instrucao_aux = []
 
-        while self.lista_tokens[look_ahead_aux].nome != "<abre_chaves>":
-            #if self.lista_tokens[look_ahead_aux].nome != "<palavraBooleana>" :
+        while self.lista_tokens[look_ahead_aux].nome != "<fim_comando>":
             instrucao_aux.append(self.lista_tokens[look_ahead_aux])
-
             look_ahead_aux += 1
 
         for item in instrucao_aux:

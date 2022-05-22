@@ -49,6 +49,9 @@ class GeradorCodigoIntermediario:
             elif(self.lista_instrucoes[i][0].nome) == "<end_proc>":
                 print("end_proc")
                 #self.gen_func(self.lista_instrucoes[i])
+            elif(self.lista_instrucoes[i][0].nome) == "<retorno>":
+                print("{0} {1}".format(self.lista_instrucoes[i][0].lexema, self.lista_instrucoes[i][1].lexema))
+                #self.gen_func(self.lista_instrucoes[i])
 
 
 

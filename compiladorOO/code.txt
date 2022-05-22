@@ -20,6 +20,7 @@ main{
 
     procedure proc(boolean xing, int xong){
         boolean n;
+        int testeB =  124;
         printf(n);
     }
 
@@ -33,6 +34,7 @@ main{
     &def verdadeiro(){
         boolean t = true;
 
+        return t;
     }
 
     boolean ddd = verdadeiro();
