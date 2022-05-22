@@ -27,7 +27,10 @@ main{
         printf(a);
     }
 
-    proc(a);
+    while(a < 20){
+    }
+
+    proc();
 
     &def verdadeiro(){
         boolean t = true;

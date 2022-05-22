@@ -207,6 +207,26 @@ class AnalizadorLexico:
                     #print("---------------------->" + str(listParam))
                     self.tabela_simbolos[buffer] = SimboloFunc("&def",linha,qtdParam,listParam)
 
+                elif(last_token.lexema == "procedure"):
+                    j = i
+                    listParam = []
+                    qtdParam = 0
+                    
+                    while texto[j]!= ")":
+                        checkInt = texto[j-2] + texto[j-1] + texto[j]
+                        checkBoolean = texto[j-6] + texto[j-5] + texto[j-4]+ texto[j-3]+ texto[j-2]+ texto[j-1]+ texto[j]
+
+                        if(checkInt == "int"):
+                            qtdParam += 1
+                            listParam.append("int")
+                        elif(checkBoolean == "boolean"):
+                            qtdParam += 1
+                            listParam.append("boolean")
+                        j += 1
+
+                    #print("---------------------->" + str(listParam))
+                    self.tabela_simbolos[buffer] = SimboloFunc("procedure",linha,qtdParam,listParam)
+
                 elif(last_token.nome == "<constante>"):
                     self.tabela_simbolos[buffer] = Simbolo("const",linha)
 
