@@ -23,14 +23,14 @@ main{
         printf(n);
     }
 
+    proc();
+
     while(a + 10 == 10){
         printf(a);
     }
 
     while(a < 20){
     }
-
-    proc();
 
     &def verdadeiro(){
         boolean t = true;
@@ -41,4 +41,5 @@ main{
 
     int resultado;
     resultado = somar(10, 20, true);
+
 }

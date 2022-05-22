@@ -1,3 +1,4 @@
+from lib2to3.pgen2 import token
 from analizador_semantico import *
 
 class AnalizadorSintatico:
@@ -42,8 +43,11 @@ class AnalizadorSintatico:
             self.bloco()
         elif(token_.nome == "<variavel>"): #Analisar com calma
             if(self.lista_tokens[self.look_ahead + 1].nome == "<abre_parenteses>"):
-                self.funcao()
-                self.match("<fim_comando>")
+                if(verificar_parametros(self.lista_tokens, self.tabela_simbolos, self.look_ahead)):
+                    self.funcao()
+                    self.match("<fim_comando>")
+                else:
+                    exit()
             else:
                 self.match("<variavel>")
                 self.atribuicao()
@@ -68,10 +72,10 @@ class AnalizadorSintatico:
         elif(token_.nome == "<procedimento>"):
             self.procedimento()
             self.bloco()
-        elif(token_.nome == "<variavel>"):
-            self.funcao()
-            self.match("<fim_comando>")
-            self.bloco()
+        # elif(token_.nome == "<variavel>"):
+        #     self.funcao()
+        #     self.match("<fim_comando>")
+        #     self.bloco()
         elif(token_.nome == "<constante>"):
             self.match("<constante>")
             self.match("<variavel>")
@@ -156,7 +160,21 @@ class AnalizadorSintatico:
     def parametros(self):
         
         token_ = self.lista_tokens[self.look_ahead]
-        #<parametros> ::= <declaracao_variavel> , <parametros> | <declaracao_variavel> | ε
+        print(token_.lexema)
+        # if self.lista_tokens[self.look_ahead - 2].lexema in self.tabela_simbolos:
+        #     print("ENTOUUUUUUUUUUUUUUUUUUUU")
+        #     print(self.tabela_simbolos[self.lista_tokens[self.look_ahead - 2].lexema].tipo)
+        # #<parametros> ::= <declaracao_variavel> , <parametros> | <declaracao_variavel> | ε
+
+        # if(self.lista_tokens[self.look_ahead - 2].lexema in self.tabela_simbolos):
+        #     print("linha 203")
+        #     if(self.tabela_simbolos[self.lista_tokens[self.look_ahead - 2].lexema].tipo == "procedure"):
+        #         if(verificar_parametros(self.lista_tokens, self.tabela_simbolos, self.look_ahead - 2)):
+        #             return
+        #         else:
+        #             exit()
+
+
         if(token_.nome == "<tipo>"):
             self.match("<tipo>")
             self.match("<variavel>")
@@ -188,6 +206,12 @@ class AnalizadorSintatico:
             if(self.lista_tokens[self.look_ahead].nome == "<virgula>"):
                 self.parametros()
             return
+
+        # elif(self.tabela_simbolos[self.lista_tokens[self.look_ahead - 2].lexema].tipo == "<procedimento>"):
+        #     if(verificar_parametros(self.lista_tokens, self.tabela_simbolos, self.look_ahead)):
+        #         return
+        #     else:
+        #         print("errooooooo")
         else:
             return
 

@@ -372,6 +372,7 @@ def verificar_parametros(lista_tokens, tabela_simbolos, look_ahead):
             quantidade_declarada += 1
         contador += 1
 
+    print("QUANTIDADE PEGA" + str(quantidade_declarada))
 
     #print(tabela_simbolos[lista_tokens[look_ahead].lexema].listParam[0])
     while(lista_tokens[look_ahead_aux].nome != "<fecha_parenteses>" and i < quantidade_params ):
