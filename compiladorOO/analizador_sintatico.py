@@ -242,6 +242,15 @@ class AnalizadorSintatico:
         self.match("<fecha_chaves>")
             
     def laco(self):
+        look_ahead_aux = self.look_ahead
+        instrucao_aux = []
+        while self.lista_tokens[look_ahead_aux].nome != "<abre_chaves>":
+            #if self.lista_tokens[look_ahead_aux].nome != "<palavraBooleana>" :
+            instrucao_aux.append(self.lista_tokens[look_ahead_aux])
+
+            look_ahead_aux += 1
+        self.instrucoes.append(instrucao_aux)
+
         self.match("<laco>")
         self.match("<abre_parenteses>")
         self.expressao_simples() #*
@@ -254,6 +263,9 @@ class AnalizadorSintatico:
         elif(self.lista_tokens[self.look_ahead].nome == "<parar>"):
             self.match("<parar>")
             self.match("<fim_comando>")
+
+
+        self.instrucoes.append([self.lista_tokens[self.look_ahead],self.lista_tokens[self.look_ahead -1] ])
         self.match("<fecha_chaves>")
     
     def imprimir(self):

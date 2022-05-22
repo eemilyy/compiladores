@@ -5,6 +5,7 @@ class GeradorCodigoIntermediario:
     def __init__(self, lista_instrucoes):
         self.lista_instrucoes = lista_instrucoes
         self.labels = 0
+        self.lastLabelWhile = 0
         self.labelsElse = []
 
     def imprimirListainstrucoes(self):
@@ -26,6 +27,10 @@ class GeradorCodigoIntermediario:
                 #print(self.lista_instrucoes[i][0].lexema)
                 self.gen_if(self.lista_instrucoes[i])
 
+            elif(self.lista_instrucoes[i][0].nome) == "<laco>" or self.lista_instrucoes[i][0].nome == "<fecha_chaves>":
+                self.gen_while(self.lista_instrucoes[i])
+
+
 
 
     def gen_if(self, instrucao):
@@ -46,6 +51,27 @@ class GeradorCodigoIntermediario:
         else:
             print("L{0}:".format(self.labelsElse.pop()))
             #print("else")
+
+    def gen_while(self, instrucao):
+        if(instrucao[0].lexema == "while"):
+            listAux = []
+            listAux.append(TokenLex("_c0","_c0",0))
+            listAux.append(TokenLex("<atribuicao>","=",0))
+            for item in instrucao:
+                if item.lexema not in ["while","(",")"]:
+                    listAux.append(item)
+
+            self.gen_attr(listAux)
+
+            self.labels += 1
+            self.lastLabelWhile = self.labels
+            print("L{0}:".format(self.labels))
+            print("whileNot _c0 goto: L{0}".format(self.labels + 1))
+            self.labelsElse.append(self.labels)
+        else:
+            self.labels += 1
+            print("goto: L{0}".format(self.lastLabelWhile))
+            print("L{0}:".format(self.labels))
 
     def gen_attr(self, instrucao):
         if(len(instrucao) == 3):
