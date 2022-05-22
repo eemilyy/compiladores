@@ -36,10 +36,19 @@ class GeradorCodigoIntermediario:
             elif(self.lista_instrucoes[i][0].nome) == "<declaracao_func>":
                 #print("declaracaoooo funcao ---- gen <<<<<<<<<<<<")
                 self.gen_func(self.lista_instrucoes[i])
+            
+            elif(self.lista_instrucoes[i][0].nome) == "<end_func>":
+                print("end_func")
+                #print("declaracaoooo funcao ---- gen <<<<<<<<<<<<")
+                #self.gen_func(self.lista_instrucoes[i])
 
             elif(self.lista_instrucoes[i][0].nome == "<procedimento>"):
                 #print("declaracao procedimento <-------------------------------------")
                 self.gen_proc(self.lista_instrucoes[i])
+
+            elif(self.lista_instrucoes[i][0].nome) == "<end_proc>":
+                print("end_proc")
+                #self.gen_func(self.lista_instrucoes[i])
 
 
 

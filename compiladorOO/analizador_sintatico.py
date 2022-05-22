@@ -1,4 +1,4 @@
-from lib2to3.pgen2 import token
+from token_lex import TokenLex
 from analizador_semantico import *
 
 class AnalizadorSintatico:
@@ -162,7 +162,9 @@ class AnalizadorSintatico:
     def funcao(self):
         look_ahead_aux = self.look_ahead -1
         instrucao_aux = []
+        print_end = False
         if self.lista_tokens[look_ahead_aux].nome == "<declaracao_func>":
+            print_end = True
             while self.lista_tokens[look_ahead_aux].nome != "<abre_chaves>":
                 #if self.lista_tokens[look_ahead_aux].nome != "<palavraBooleana>" :
                 instrucao_aux.append(self.lista_tokens[look_ahead_aux])
@@ -178,6 +180,11 @@ class AnalizadorSintatico:
         self.match("<abre_parenteses>")
         self.parametros()
         self.match("<fecha_parenteses>")
+
+        if print_end:
+            endFunc = [TokenLex("<end_func>","end_func",0), TokenLex("<end_func>","end_func",0)]
+            self.instrucoes.append(endFunc)
+
 
     def parametros(self):
         
@@ -364,4 +371,7 @@ class AnalizadorSintatico:
         else:
             quit()
         self.match("<fecha_chaves>")
+
+        endProc = [TokenLex("<end_proc>","<end_proc>",0), TokenLex("<end_proc>","endProc",0)]
+        self.instrucoes.append(endProc)
     
