@@ -40,8 +40,17 @@ class AnalizadorSintatico:
         elif(token_.nome == "<atribuicao>"):                
             self.atribuicao()
             self.bloco()
-        elif(token_.nome == "<variavel>"): #Analisar com calma
+        elif(token_.nome == "<variavel>"): #chamada funcao / procedimento
             if(self.lista_tokens[self.look_ahead + 1].nome == "<abre_parenteses>"):
+
+                look_ahead_aux = self.look_ahead
+                instrucao_aux = []
+                while self.lista_tokens[look_ahead_aux].nome != "<fim_comando>":
+                    instrucao_aux.append(self.lista_tokens[look_ahead_aux])
+                    look_ahead_aux += 1
+                    
+                self.instrucoes.append(instrucao_aux)
+
                 self.funcao()
                 self.match("<fim_comando>")
             else:
