@@ -65,11 +65,12 @@ class GeradorCodigoIntermediario:
                 if item.lexema not in ["while","(",")"]:
                     listAux.append(item)
 
-            self.gen_attr(listAux)
 
             self.labels += 1
             self.lastLabelWhile = self.labels
             print("L{0}:".format(self.labels))
+            
+            self.gen_attr(listAux)
             print("whileNot _c0 goto: L{0}".format(self.labels + 1))
             self.labelsElse.append(self.labels)
         else:

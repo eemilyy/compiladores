@@ -27,7 +27,6 @@ main{
         printf(a);
     }
 
-    proc(a, b , c);
 
     &def verdadeiro(){
         boolean t = true;
