@@ -19,9 +19,7 @@ def verificar_atribuicao(lista_tokens, tabela_simbolos, look_ahead):
                     aux_look_ahead = look_ahead + 2
                     if(lista_tokens[aux_look_ahead].nome == "<aritmeticas>"):
                         while(lista_tokens[aux_look_ahead - 2].nome != "<fim_comando>"):
-                            print("--------------------------------------------------")
                             if lista_tokens[aux_look_ahead].nome == "<aritmeticas>":
-                                print(get_tipo(lista_tokens[aux_look_ahead + 1], tabela_simbolos))
                                 if(get_tipo(lista_tokens[aux_look_ahead + 1], tabela_simbolos) == "int"):
                                     #return True
                                     pass
@@ -37,7 +35,10 @@ def verificar_atribuicao(lista_tokens, tabela_simbolos, look_ahead):
                     else:
                         return True
                 elif(tipo_recebida == "$def"):
-                    return True
+                    if(verificar_parametros(lista_tokens, tabela_simbolos, look_ahead + 1)): ################ aquiiiiiiiiiiiiiiiiiiiiiiiiiiiii
+                        return True
+                    else:
+                        return False
                 else:
                     print('\033[91m' + "Semantic error in line {0}, type error".format(lista_tokens[look_ahead - 2].linha) + '\033[0m') #DETALHAR ERRO
                     return False
@@ -45,9 +46,7 @@ def verificar_atribuicao(lista_tokens, tabela_simbolos, look_ahead):
                 aux_look_ahead = look_ahead + 2
                 if(lista_tokens[aux_look_ahead].nome == "<aritmeticas>"):
                     while(lista_tokens[aux_look_ahead - 2].nome != "<fim_comando>"):
-                        print("--------------------------------------------------")
                         if lista_tokens[aux_look_ahead].nome == "<aritmeticas>":
-                            print(get_tipo(lista_tokens[aux_look_ahead + 1], tabela_simbolos))
                             if(get_tipo(lista_tokens[aux_look_ahead + 1], tabela_simbolos) == "int"):
                                 #return True
                                 pass
@@ -58,9 +57,6 @@ def verificar_atribuicao(lista_tokens, tabela_simbolos, look_ahead):
                                 print('\033[91m' + "Semantic error in line {0}, arithmetic with wrong values".format(lista_tokens[look_ahead - 2].linha) + '\033[0m') #DETALHAR ERRO
                                 return False
                         aux_look_ahead += 2
-
-
-
                 return True
             elif not tipo_recebida:
                 print('\033[91m' + "Semantic error in line {0}, variabel {1} undeclared".format(lista_tokens[look_ahead - 1].linha, lista_tokens[look_ahead - 1].lexema) + '\033[0m') #DETALHAR ERRO
@@ -74,7 +70,10 @@ def verificar_atribuicao(lista_tokens, tabela_simbolos, look_ahead):
                 if(tipo_recebida == "boolean"):
                     return True
                 elif tipo_recebida == "&def":
-                    return True
+                    if(verificar_parametros(lista_tokens, tabela_simbolos, look_ahead + 1)): ################ aquiiiiiiiiiiiiiiiiiiiiiiiiiiiii
+                        return True
+                    else:
+                        return False
                 else:
                     print('\033[91m' + "Semantic error in line {0}, Incompatible types, expected {1} but receive {2}".format(lista_tokens[look_ahead - 1].linha, tipo_declarada, tipo_recebida) + '\033[0m') #DETALHAR ERRO
                     return False
@@ -358,4 +357,55 @@ def verificar_retorno_variavel(lista_tokens, tabela_simbolos, look_ahead):
         return True
     else:
         print('\033[91m' + "Semantic error line: {0}, uninitialized variable".format(lista_tokens[look_ahead - 2].linha) + '\033[0m')
+        return False
+
+
+def verificar_parametros(lista_tokens, tabela_simbolos, look_ahead):
+    quantidade_params = tabela_simbolos[lista_tokens[look_ahead].lexema].qtdParam
+    quantidade_declarada = 0
+    look_ahead_aux = (look_ahead + 2)
+    contador = look_ahead_aux
+    i = 0
+
+    while(lista_tokens[contador].nome != "<fecha_parenteses>"):
+        if(lista_tokens[contador].nome != "<virgula>"):
+            quantidade_declarada += 1
+        contador += 1
+
+
+    #print(tabela_simbolos[lista_tokens[look_ahead].lexema].listParam[0])
+    while(lista_tokens[look_ahead_aux].nome != "<fecha_parenteses>" and i < quantidade_params ):
+        if(lista_tokens[look_ahead_aux].nome != "<virgula>"):
+            #if(lista_tokens[look_ahead_aux].nome == "<numerico>" and tabela_simbolos[lista_tokens[look_ahead].lexema].listParam[i] == "int"):
+            if(tabela_simbolos[lista_tokens[look_ahead].lexema].listParam[i] == "int"):
+                if(lista_tokens[look_ahead_aux].nome == "<numerico>"):
+                    pass
+                elif(lista_tokens[look_ahead_aux].nome == "<variavel>"):
+                    if(get_tipo(lista_tokens[look_ahead_aux], tabela_simbolos) == "int"):
+                        pass
+                    else:
+                        print('\033[91m' + "Semantic error line: {0}, variable {1} has a different declaration".format(lista_tokens[look_ahead - 2].linha, lista_tokens[look_ahead_aux].lexema) + '\033[0m')
+                        return False    
+                else:
+                    print('\033[91m' + "Semantic error line: {0}, parameter {1} declared wrong".format(lista_tokens[look_ahead - 2].linha, lista_tokens[look_ahead_aux].lexema) + '\033[0m')
+                    return False
+            elif(tabela_simbolos[lista_tokens[look_ahead].lexema].listParam[i] == "boolean"):
+                if(lista_tokens[look_ahead_aux].nome == "<palavraBooleana>"):
+                    pass
+                elif(lista_tokens[look_ahead_aux].nome == "<variavel>"):
+                    if(get_tipo(lista_tokens[look_ahead_aux], tabela_simbolos) == "boolean"):
+                        pass
+                    else:
+                        print('\033[91m' + "Semantic error line: {0}, variable {1} has a different declaration".format(lista_tokens[look_ahead - 2].linha, lista_tokens[look_ahead_aux].lexema) + '\033[0m')
+                        return False
+                else:
+                    print('\033[91m' + "Semantic error line: {0}, parameter {1} declared wrong".format(lista_tokens[look_ahead - 2].linha, lista_tokens[look_ahead_aux].lexema) + '\033[0m')
+                    return False
+            i += 1
+        look_ahead_aux += 1
+    
+    if(quantidade_declarada == quantidade_params):
+        return True
+    else:
+        print('\033[91m' + "Semantic error line: {0}, the functions need {1} parameters".format(lista_tokens[look_ahead - 2].linha, quantidade_params) + '\033[0m')
         return False

@@ -83,13 +83,14 @@ class GeradorCodigoIntermediario:
             if(instrucao[3].nome == "<abre_parenteses>"): #chamada de funcao
                 contParam = 0
                 i = 4
-                while(instrucao[i + 1].nome != "<fecha_parenteses>"):
-                    i += 1
-                while(instrucao[i].nome != "<abre_parenteses>"):
-                    if instrucao[i].lexema != ",":
-                        print("_p{0} = {1} ".format(contParam,instrucao[i].lexema))
-                        contParam += 1
-                    i -= 1
+                if len(instrucao) > 5:
+                    while(instrucao[i + 1].nome != "<fecha_parenteses>"):
+                        i += 1
+                    while(instrucao[i].nome != "<abre_parenteses>"):
+                        if instrucao[i].lexema != ",":
+                            print("_p{0} = {1} ".format(contParam,instrucao[i].lexema))
+                            contParam += 1
+                        i -= 1
                 
                 print("{0} = call {1},{2}".format(instrucao[0].lexema, instrucao[2].lexema, contParam))
 

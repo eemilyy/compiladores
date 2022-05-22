@@ -58,6 +58,8 @@ class AnalizadorSintatico:
             self.laco()
             self.bloco()
         elif(token_.nome == "<imprimir>"):
+            print("entrou imprimir")
+            print(self.lista_tokens[self.look_ahead].lexema)
             self.imprimir()
             self.bloco()
         # elif(token_.nome == "<retorno>"): #TESTANDO RETORNO APENAS DENTRO DE DEF
@@ -146,7 +148,6 @@ class AnalizadorSintatico:
             exit()
 
     def funcao(self):
-        print(self.lista_tokens[self.look_ahead].lexema)
         self.match("<variavel>")
         self.match("<abre_parenteses>")
         self.parametros()
@@ -165,7 +166,7 @@ class AnalizadorSintatico:
                 return
         elif(token_.nome == "<virgula>"):
             self.match("<virgula>")
-            if(self.lista_tokens[self.look_ahead].nome != "<variavel>" and self.lista_tokens[self.look_ahead].nome != "<numerico>"):
+            if(self.lista_tokens[self.look_ahead].nome != "<variavel>" and self.lista_tokens[self.look_ahead].nome != "<numerico>" and self.lista_tokens[self.look_ahead].nome != "<palavraBooleana>" ):
                 self.match("<tipo>")
                 self.match("<variavel>")
                 self.parametros()
@@ -179,6 +180,11 @@ class AnalizadorSintatico:
             return
         elif(token_.nome == "<numerico>"):
             self.match("<numerico>")
+            if(self.lista_tokens[self.look_ahead].nome == "<virgula>"):
+                self.parametros()
+            return
+        elif(token_.nome == "<palavraBooleana>"): # ACEITA RECEBER APENAS TRUE OU FALSE
+            self.match("<palavraBooleana>")
             if(self.lista_tokens[self.look_ahead].nome == "<virgula>"):
                 self.parametros()
             return
@@ -232,9 +238,6 @@ class AnalizadorSintatico:
         self.bloco()
         self.match("<fecha_chaves>")
 
-
-
-
         self.instrucoes.append([self.lista_tokens[self.look_ahead],self.lista_tokens[self.look_ahead]])
         self.match("<condicao>")
         self.match("<abre_chaves>")
@@ -271,7 +274,12 @@ class AnalizadorSintatico:
     def imprimir(self):
         self.match("<imprimir>")
         self.match("<abre_parenteses>")
-        self.match("<variavel>") # Falta constante
+        if(self.lista_tokens[self.look_ahead].nome == "<variavel>"):
+            self.match("<variavel>") # Falta constante
+        elif(self.lista_tokens[self.look_ahead].nome == "<constante>"):
+            self.match("<constante>")
+        else:
+            self.match("<numerico>")
         self.match("<fecha_parenteses>")
         self.match("<fim_comando>")
     

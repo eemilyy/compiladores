@@ -1,9 +1,10 @@
 main{
-    $def somar(boolean ppk, int a, int b, int c){
+    $def somar(int a, int b, boolean c){
         int r;
         r = a + 10 - 15;
         return r;
     }
+
     boolean x = true;
     boolean tt = false;
 
@@ -12,19 +13,18 @@ main{
     int zz = 3 + 3 * 3 - 4 / 2;
 
     if(10 + f == 40){
-        print(5);
+        printf(5);
     }else{
-        print(10);
+        printf(10);
     }
 
     procedure proc(){
         boolean n;
-        print(n);
+        printf(n);
     }
 
-
     while(a + 10 == 10){
-        print(10);
+        printf(a);
     }
 
     proc(a);
@@ -34,7 +34,8 @@ main{
         return t;
     }
 
-    int resultado;
-    resultado = somar(10, 20, 30);
+    boolean ddd = verdadeiro();
 
+    int resultado;
+    resultado = somar(10, 20, true);
 }
