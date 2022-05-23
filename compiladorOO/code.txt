@@ -8,12 +8,14 @@ main{
     boolean x = true;
     boolean tt = false;
 
+    const www = 20;
+
     int f;
     f = 20 + 10 - a;
     int zz = 3 + 3 * 3 - 4 / 2;
 
-    if(10 + f == 40){
-        printf(5);
+    if(tt == true){
+        printf(www);
     }else{
         printf(10);
     }
@@ -24,20 +26,20 @@ main{
         printf(n);
     }
 
-    proc(x, f);
+    proc(true, 10);
 
-    while(a + 10 == 10){
+    while(a < 10){
         printf(a);
     }
 
 
-    &def verdadeiro(){
+    &def verdadeiro(int aaaa, boolean ee){
         boolean t = true;
 
         return t;
     }
 
-    boolean ddd = verdadeiro();
+    boolean ddd = verdadeiro(a, x);
 
     int resultado;
     resultado = somar(10, 20, true);

@@ -22,6 +22,7 @@ class AnalizadorSintatico:
         else:
             print('\033[91m' + "Not Found: "+ terminal + '\033[0m')
             print('\033[91m' + "Syntax error line: " + str(self.lista_tokens[self.look_ahead].linha) + '\033[0m')
+            exit()
             #self.look_ahead += 1
 #----------------------------------------------------------------------------------------------------
     def programa(self):
