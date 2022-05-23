@@ -47,7 +47,7 @@ class AnalizadorSintatico:
                 if(verificar_parametros(self.lista_tokens, self.tabela_simbolos, self.look_ahead)):
                     look_ahead_aux = self.look_ahead
                     instrucao_aux = []
-                    while self.lista_tokens[look_ahead_aux].nome != "<fim_comando>":
+                    while self.lista_tokens[look_ahead_aux].nome not in ["<fim_comando>","<EOF>"]:
                         instrucao_aux.append(self.lista_tokens[look_ahead_aux])
                         look_ahead_aux += 1
                         
@@ -124,7 +124,7 @@ class AnalizadorSintatico:
     def atribuicao(self):
         look_ahead_aux = self.look_ahead - 1
         instrucao_aux = []
-        while self.lista_tokens[look_ahead_aux].nome != "<fim_comando>":
+        while(self.lista_tokens[look_ahead_aux].nome not in ["<fim_comando>", "<EOF>"]):
             #if self.lista_tokens[look_ahead_aux].nome != "<palavraBooleana>" :
             instrucao_aux.append(self.lista_tokens[look_ahead_aux])
 
@@ -166,7 +166,7 @@ class AnalizadorSintatico:
         print_end = False
         if self.lista_tokens[look_ahead_aux].nome == "<declaracao_func>":
             print_end = True
-            while self.lista_tokens[look_ahead_aux].nome != "<abre_chaves>":
+            while self.lista_tokens[look_ahead_aux].nome not in ["<abre_chaves>","<EOF>"]:
                 #if self.lista_tokens[look_ahead_aux].nome != "<palavraBooleana>" :
                 instrucao_aux.append(self.lista_tokens[look_ahead_aux])
 
@@ -277,7 +277,7 @@ class AnalizadorSintatico:
     def condicao(self):
         look_ahead_aux = self.look_ahead
         instrucao_aux = []
-        while self.lista_tokens[look_ahead_aux].nome != "<abre_chaves>":
+        while self.lista_tokens[look_ahead_aux].nome not in ["<abre_chaves>","<EOF>"]:
             #if self.lista_tokens[look_ahead_aux].nome != "<palavraBooleana>" :
             instrucao_aux.append(self.lista_tokens[look_ahead_aux])
 
@@ -301,7 +301,7 @@ class AnalizadorSintatico:
     def laco(self):
         look_ahead_aux = self.look_ahead
         instrucao_aux = []
-        while self.lista_tokens[look_ahead_aux].nome != "<abre_chaves>":
+        while self.lista_tokens[look_ahead_aux].nome not in  ["<abre_chaves>","<EOF>"]:
             #if self.lista_tokens[look_ahead_aux].nome != "<palavraBooleana>" :
             instrucao_aux.append(self.lista_tokens[look_ahead_aux])
 
@@ -329,7 +329,7 @@ class AnalizadorSintatico:
         instrucao_aux = []
         look_ahead_aux = self.look_ahead
 
-        while self.lista_tokens[look_ahead_aux].nome != "<fim_comando>":
+        while self.lista_tokens[look_ahead_aux].nome not in ["<fim_comando>","<EOF>"]:
             instrucao_aux.append(self.lista_tokens[look_ahead_aux])
             look_ahead_aux += 1
 
@@ -371,7 +371,7 @@ class AnalizadorSintatico:
         look_ahead_aux = self.look_ahead
         instrucao_aux = []
 
-        while self.lista_tokens[look_ahead_aux].nome != "<fim_comando>":
+        while self.lista_tokens[look_ahead_aux].nome not in ["<fim_comando>","<EOF>"]:
             instrucao_aux.append(self.lista_tokens[look_ahead_aux])
             look_ahead_aux += 1
 
