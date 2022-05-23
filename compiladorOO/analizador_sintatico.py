@@ -325,6 +325,15 @@ class AnalizadorSintatico:
         self.match("<fecha_chaves>")
     
     def imprimir(self):
+        instrucao_aux = []
+        look_ahead_aux = self.look_ahead
+
+        while self.lista_tokens[look_ahead_aux].nome != "<fim_comando>":
+            instrucao_aux.append(self.lista_tokens[look_ahead_aux])
+            look_ahead_aux += 1
+
+        self.instrucoes.append(instrucao_aux)
+        
         self.match("<imprimir>")
         self.match("<abre_parenteses>")
         if(self.lista_tokens[self.look_ahead].nome == "<variavel>"):
