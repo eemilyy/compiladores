@@ -68,17 +68,24 @@ class GeradorCodigoIntermediario:
     def gen_if(self, instrucao, arq):
         if(instrucao[0].lexema == "if"):
             listAux = []
-            listAux.append(TokenLex("_c0","_c0",0))
-            listAux.append(TokenLex("<atribuicao>","=",0))
+            # listAux.append(TokenLex("_c0","_c0",0))
+            # listAux.append(TokenLex("<atribuicao>","=",0))
             for item in instrucao:
                 if item.lexema not in ["if","(",")"]:
                     listAux.append(item)
 
-            self.gen_attr(listAux, arq)
+            #self.gen_attr(listAux, arq)
 
             self.labels += 1
-            print("ifNot _c0 goto: L{0}".format(self.labels))
-            arq.write("ifNot _c0 goto: L{0}".format(self.labels) + "\n")
+            print("ifFalse",end=" ")
+            arq.write("ifFalse ")
+
+            for item in listAux:
+                print(item.lexema, end="")
+                arq.write(item.lexema + "")
+
+            print(" goto: L{0}".format(self.labels))
+            arq.write(" goto: L{0}".format(self.labels) + "\n")
             
             self.labelsElse.append(self.labels)
 
@@ -92,8 +99,8 @@ class GeradorCodigoIntermediario:
     def gen_while(self, instrucao, arq):
         if(instrucao[0].lexema == "while"):
             listAux = []
-            listAux.append(TokenLex("_c0","_c0",0))
-            listAux.append(TokenLex("<atribuicao>","=",0))
+            # listAux.append(TokenLex("_c0","_c0",0))
+            # listAux.append(TokenLex("<atribuicao>","=",0))
             for item in instrucao:
                 if item.lexema not in ["while","(",")"]:
                     listAux.append(item)
@@ -104,9 +111,16 @@ class GeradorCodigoIntermediario:
             print("L{0}:".format(self.labels))
             arq.write("L{0}:".format(self.labels) + "\n")
             
-            self.gen_attr(listAux, arq)
-            print("whileNot _c0 goto: L{0}".format(self.labels + 1))
-            arq.write("whileNot _c0 goto: L{0}".format(self.labels + 1) + "\n")
+            #self.gen_attr(listAux, arq)
+            print("whileFalse",end=" ")
+            arq.write("whileFalse ")
+            for item in listAux:
+                print(item.lexema, end="")
+                arq.write(item.lexema + "")
+
+            print(" goto: L{0}".format(self.labels + 1))
+            arq.write(" goto: L{0}".format(self.labels + 1) + "\n")
+
             self.labelsElse.append(self.labels)
         else:
             self.labels += 1
@@ -132,8 +146,8 @@ class GeradorCodigoIntermediario:
                         i += 1
                     while(instrucao[i].nome != "<abre_parenteses>"):
                         if instrucao[i].lexema != ",":
-                            print("_p{0} = {1} ".format(contParam,instrucao[i].lexema))
-                            arq.write("_p{0} = {1} ".format(contParam,instrucao[i].lexema) + "\n")
+                            print("_param = {0} ".format(instrucao[i].lexema))
+                            arq.write("_param = {0} ".format(instrucao[i].lexema) + "\n")
                             contParam += 1
                         i -= 1
                 
@@ -168,8 +182,8 @@ class GeradorCodigoIntermediario:
                 i += 1
             while(instrucao[i].nome != "<abre_parenteses>"):
                 if instrucao[i].lexema != ",":
-                    print("_p{0} = {1} ".format(contParam,instrucao[i].lexema))
-                    arq.write("_p{0} = {1} ".format(contParam,instrucao[i].lexema) + "\n")
+                    print("_param = {0} ".format(instrucao[i].lexema))
+                    arq.write("_param = {0} ".format(instrucao[i].lexema) + "\n")
                     contParam += 1
                 i -= 1
         
@@ -181,33 +195,33 @@ class GeradorCodigoIntermediario:
         #     print(item.lexema,end=" ")
         # print("")
 
-        contParam = 0
-        i = 2
-        if len(instrucao) > 3:
-            while(instrucao[i + 1].nome != "<fecha_parenteses>"):
-                i += 1
-            while(instrucao[i].nome != "<abre_parenteses>"):
-                if instrucao[i].lexema not in  [",","int","boolean"]:
-                    print("_p{0} = {1} ".format(contParam,instrucao[i].lexema))
-                    arq.write("_p{0} = {1} ".format(contParam,instrucao[i].lexema) + "\n")
-                    contParam += 1
-                i -= 1
-        print("func {0},{1}:\nbegin_func:".format(instrucao[1].lexema, contParam))
-        arq.write("func {0},{1}:\nbegin_func:".format(instrucao[1].lexema, contParam) + "\n")
+        # contParam = 0
+        # i = 2
+        # if len(instrucao) > 3:
+        #     while(instrucao[i + 1].nome != "<fecha_parenteses>"):
+        #         i += 1
+        #     while(instrucao[i].nome != "<abre_parenteses>"):
+        #         if instrucao[i].lexema not in  [",","int","boolean"]:
+        #             print("_p{0} = {1} ".format(contParam,instrucao[i].lexema))
+        #             arq.write("_p{0} = {1} ".format(contParam,instrucao[i].lexema) + "\n")
+        #             contParam += 1
+        #         i -= 1
+        print("func {0}:\nbegin_func:".format(instrucao[1].lexema))
+        arq.write("func {0}:\nbegin_func:".format(instrucao[1].lexema) + "\n")
         
 
     def gen_proc(self, instrucao, arq):
         
-        contParam = 0
-        i = 2
-        if len(instrucao) > 3:
-            while(instrucao[i + 1].nome != "<fecha_parenteses>"):
-                i += 1
-            while(instrucao[i].nome != "<abre_parenteses>"):
-                if instrucao[i].lexema not in  [",","int","boolean"]:
-                    print("_p{0} = {1} ".format(contParam,instrucao[i].lexema))
-                    arq.write("_p{0} = {1} ".format(contParam,instrucao[i].lexema) + "\n")
-                    contParam += 1
-                i -= 1
-        print("proc {0},{1}:\nbegin_proc:".format(instrucao[1].lexema, contParam))
-        arq.write("proc {0},{1}:\nbegin_proc:".format(instrucao[1].lexema, contParam) + "\n")
+        # contParam = 0
+        # i = 2
+        # if len(instrucao) > 3:
+        #     while(instrucao[i + 1].nome != "<fecha_parenteses>"):
+        #         i += 1
+        #     while(instrucao[i].nome != "<abre_parenteses>"):
+        #         if instrucao[i].lexema not in  [",","int","boolean"]:
+        #             print("_p{0} = {1} ".format(contParam,instrucao[i].lexema))
+        #             arq.write("_p{0} = {1} ".format(contParam,instrucao[i].lexema) + "\n")
+        #             contParam += 1
+        #         i -= 1
+        print("proc {0}:\nbegin_proc:".format(instrucao[1].lexema))
+        arq.write("proc {0}:\nbegin_proc:".format(instrucao[1].lexema) + "\n")
