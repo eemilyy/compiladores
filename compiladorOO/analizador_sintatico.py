@@ -102,7 +102,7 @@ class AnalizadorSintatico:
             #print('\033[93m' + "BLOCO Syntax error line: " + str(token_.linha) + '\033[0m')
             return
 
-    def declaracao_variavelBooleana(self):
+    def declaracao_variavelBooleana(self): ## não é chamadooo
         self.match("<tipo>")
         self.match("<variavel>")
         #self.match("<fim_comando>")
@@ -271,7 +271,7 @@ class AnalizadorSintatico:
                     else:
                         self.match("<numerico>")
         else:
-            print('\033[91m' + "Semantic error line: {0}, Incompatible types of result".format(self.lista_tokens[self.look_ahead].linha) + '\033[0m')
+            #print('\033[91m' + "Semantic error line: {0}, Incompatible types of result".format(self.lista_tokens[self.look_ahead].linha) + '\033[0m')
             exit()
 
     def condicao(self):

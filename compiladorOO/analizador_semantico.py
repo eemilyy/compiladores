@@ -203,6 +203,7 @@ def verificar_expressao(lista_tokens, tabela_simbolos, look_ahead):
         if(primeiro_valor == "int" and segundo_valor == "int"):
             if(lista_tokens[look_ahead + 3].nome == "<booleanas>"):
                 if(verificar_int(lista_tokens, tabela_simbolos, look_ahead + 4)):
+                    
                     return True
                 # ultimo_valor = get_tipo(lista_tokens[look_ahead + 2], tabela_simbolos)
                 # if(ultimo_valor == "int"):
@@ -213,7 +214,17 @@ def verificar_expressao(lista_tokens, tabela_simbolos, look_ahead):
                 #     print('\033[91m' + "Semantic error line: {0}, Incompatible types of result".format(lista_tokens[look_ahead - 2].linha) + '\033[0m')
                 #     return False
             else:
-                return True
+                if(lista_tokens[look_ahead + 1].nome != "<booleanas>" and lista_tokens[look_ahead + 3].nome != "<fecha_parenteses>"):
+                        if(verificar_int(lista_tokens, tabela_simbolos, look_ahead + 4)):
+                            return True
+                else:
+                    if(lista_tokens[look_ahead + 3].nome == "<fecha_parenteses>"):
+                        if(lista_tokens[look_ahead + 1].nome == "<booleanas>"):
+                            return True
+                        else:
+                            print('\033[91m' + "Semantic error line: {0}, only boolean operations for two cases".format(lista_tokens[look_ahead - 2].linha) + '\033[0m')
+                            return False
+                #return True
         elif(primeiro_valor == "boolean" and segundo_valor == "boolean"):
             if(lista_tokens[look_ahead + 1].lexema == "!=" or lista_tokens[look_ahead + 1].lexema == "=="):
                 return True
@@ -240,8 +251,16 @@ def verificar_expressao(lista_tokens, tabela_simbolos, look_ahead):
         if(primeiro_valor):
             if(primeiro_valor == "int"):
                 if(lista_tokens[look_ahead + 2].nome == "<numerico>"):
-                    if(verificar_int(lista_tokens, tabela_simbolos, look_ahead + 4)):
-                        return True
+                    if(lista_tokens[look_ahead + 1].nome != "<booleanas>" and lista_tokens[look_ahead + 3].nome != "<fecha_parenteses>"):
+                        if(verificar_int(lista_tokens, tabela_simbolos, look_ahead + 4)):
+                            return True
+                    else:
+                        if(lista_tokens[look_ahead + 3].nome == "<fecha_parenteses>"):
+                            if(lista_tokens[look_ahead + 1].nome == "<booleanas>"):
+                                return True
+                            else:
+                                print('\033[91m' + "Semantic error line: {0}, only boolean operations for two cases".format(lista_tokens[look_ahead - 2].linha) + '\033[0m')
+                                return False
 
 
                     # ultimo_valor = get_tipo(lista_tokens[look_ahead + 5], tabela_simbolos)
@@ -277,8 +296,19 @@ def verificar_expressao(lista_tokens, tabela_simbolos, look_ahead):
         elif(segundo_valor):
             if(segundo_valor == "int"):
                 if(lista_tokens[look_ahead].nome == "<numerico>"):
-                    if(verificar_int(lista_tokens, tabela_simbolos, look_ahead + 4)):
-                        return True
+                    # if(verificar_int(lista_tokens, tabela_simbolos, look_ahead + 4)):
+                    #     return True
+
+                    if(lista_tokens[look_ahead + 1].nome != "<booleanas>" and lista_tokens[look_ahead + 3].nome != "<fecha_parenteses>"):
+                        if(verificar_int(lista_tokens, tabela_simbolos, look_ahead + 4)):
+                            return True
+                    else:
+                        if(lista_tokens[look_ahead + 3].nome == "<fecha_parenteses>"):
+                            if(lista_tokens[look_ahead + 1].nome == "<booleanas>"):
+                                return True
+                            else:
+                                print('\033[91m' + "Semantic error line: {0}, only boolean operations for two cases".format(lista_tokens[look_ahead - 2].linha) + '\033[0m')
+                                return False
                 else:
                     print('\033[91m' + "Semantic error line: {0}, Incompatible types of result".format(lista_tokens[look_ahead - 2].linha) + '\033[0m')
                     return False
@@ -291,6 +321,8 @@ def verificar_expressao(lista_tokens, tabela_simbolos, look_ahead):
             else:
                 print('\033[91m' + "Semantic error line: {0}, Incompatible types of result".format(lista_tokens[look_ahead - 2].linha) + '\033[0m')
                 return False
+        else:
+            pass
 
     # tipo = get_tipo(lista_tokens[look_ahead], tabela_simbolos)
     # tipoAtribuicao = get_tipo(lista_tokens[look_ahead + 2], tabela_simbolos)

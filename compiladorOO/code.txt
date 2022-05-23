@@ -14,7 +14,7 @@ main{
     f = 20 + 10 - a;
     int zz = 3 + 3 * 3 - 4 / 2;
 
-    if(tt == true){
+    if(a < 10){
         printf(www);
     }else{
         printf(10);
