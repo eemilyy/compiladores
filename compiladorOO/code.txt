@@ -1,47 +1,31 @@
 main{
-    $def somar(int a, int b, boolean c){
-        int r;
-        r = a + 10 - 15;
-        return r;
+    $def somar(int valorA, int valorB){
+        int resultado = valorA + valorB;
+        return resultado;
     }
 
-    boolean x = true;
-    boolean tt = false;
-
-    const www = 20;
-
-    int f;
-    f = 20 + 10 - a;
-    int zz = 3 + 3 * 3 - 4 / 2;
-
-    if(a < 10){
-        printf(www);
-    }else{
+    procedure exibir(){
         printf(10);
     }
 
-    procedure proc(boolean xing, int xong){
-        boolean n;
-        int testeB =  124;
-        printf(n);
+    int variavel1;
+    boolean variavelBoo = true;
+    variavel1 = 10 + 10 - 1 * 2;
+
+    int chamadaSoma = somar(variavel1, 100);
+
+    exibir();
+
+    int cont = 10;
+
+    while(variavelBoo == true){
+        printf(variavelBoo);
+        if(cont - 1 == 0){
+            variavelBoo = false;
+        }
+        else{
+            cont = cont - 1;
+        }
     }
-
-    proc(true, 10);
-
-    while(a < 10){
-        printf(a);
-    }
-
-
-    &def verdadeiro(int aaaa, boolean ee){
-        boolean t = true;
-
-        return t;
-    }
-
-    boolean ddd = verdadeiro(a, x);
-
-    int resultado;
-    resultado = somar(10, 20, true);
 
 }
