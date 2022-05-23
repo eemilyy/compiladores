@@ -9,7 +9,7 @@ arq.close()
 
 lexer = AnalizadorLexico(texto)
 lexer.tokenizar(texto)
-lexer.imprimir_lista_tokens()
+#lexer.imprimir_lista_tokens()
 lexer.imprimir_tabela_simbolos()
 parser = AnalizadorSintatico(lexer.tokens, lexer.tabela_simbolos)
 instrucoes = parser.start() #tradutor recebe uma array de 
