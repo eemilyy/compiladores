@@ -5,7 +5,7 @@ class GeradorCodigoIntermediario:
     def __init__(self, lista_instrucoes):
         self.lista_instrucoes = lista_instrucoes
         self.labels = 0
-        self.lastLabelWhile = 0
+        self.lastLabelWhile = []
         self.labelsElse = []
 
     def imprimirListainstrucoes(self):
@@ -84,6 +84,8 @@ class GeradorCodigoIntermediario:
                 print(item.lexema, end="")
                 arq.write(item.lexema + "")
 
+            if len(self.lastLabelWhile) != 0:
+                self.labels += 1 
             print(" goto: L{0}".format(self.labels))
             arq.write(" goto: L{0}".format(self.labels) + "\n")
             
@@ -107,7 +109,8 @@ class GeradorCodigoIntermediario:
 
 
             self.labels += 1
-            self.lastLabelWhile = self.labels
+            #self.lastLabelWhile = self.labels
+            self.lastLabelWhile.append(self.labels)
             print("L{0}:".format(self.labels))
             arq.write("L{0}:".format(self.labels) + "\n")
             
@@ -121,13 +124,14 @@ class GeradorCodigoIntermediario:
             print(" goto: L{0}".format(self.labels + 1))
             arq.write(" goto: L{0}".format(self.labels + 1) + "\n")
 
-            self.labelsElse.append(self.labels)
+            #self.labelsElse.append(self.labels)
         else:
-            self.labels += 1
-            arq.write("goto: L{0}".format(self.lastLabelWhile) + "\n")
-            arq.write("L{0}:".format(self.labels) + "\n")
-            print("goto: L{0}".format(self.lastLabelWhile))
-            print("L{0}:".format(self.labels))
+            #self.labels += 1 <<<<<<<<<<<<<<<<,,------------------
+            pop = self.lastLabelWhile.pop()
+            arq.write("goto: L{0}".format(pop) + "\n")
+            arq.write("L{0}:".format(pop) + "\n")
+            print("goto: L{0}".format(pop))
+            print("L{0}:".format(pop + 1))
 
     def gen_attr(self, instrucao, arq):
         if(len(instrucao) == 3):

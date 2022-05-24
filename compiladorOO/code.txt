@@ -28,4 +28,10 @@ main{
         }
     }
 
+    while(variavelBoo == true){
+        printf(variavelBoo);
+
+    }
+
+
 }
