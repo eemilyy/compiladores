@@ -129,7 +129,7 @@ class GeradorCodigoIntermediario:
             #self.labels += 1 <<<<<<<<<<<<<<<<,,------------------
             pop = self.lastLabelWhile.pop()
             arq.write("goto: L{0}".format(pop) + "\n")
-            arq.write("L{0}:".format(pop) + "\n")
+            arq.write("L{0}:".format(pop + 1) + "\n")
             print("goto: L{0}".format(pop))
             print("L{0}:".format(pop + 1))
 
