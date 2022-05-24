@@ -27,7 +27,7 @@ def verificar_atribuicao(lista_tokens, tabela_simbolos, look_ahead):
                                     #return True
                                     pass
                                 else:
-                                    print('\033[91m' + "Semantic error in line {0}, arithmetic with wrong values".format(lista_tokens[look_ahead - 2].linha) + '\033[0m') #DETALHAR ERRO
+                                    print('\033[91m' + "Semantic error in line {0}, arithmetic with wrong values".format(lista_tokens[look_ahead].linha) + '\033[0m') #DETALHAR ERRO
                                     return False
                             aux_look_ahead += 2
 
@@ -40,7 +40,7 @@ def verificar_atribuicao(lista_tokens, tabela_simbolos, look_ahead):
                     else:
                         return False
                 else:
-                    print('\033[91m' + "Semantic error in line {0}, type error".format(lista_tokens[look_ahead - 2].linha) + '\033[0m') #DETALHAR ERRO
+                    print('\033[91m' + "Semantic error in line {0}, type error".format(lista_tokens[look_ahead].linha) + '\033[0m') #DETALHAR ERRO
                     return False
             elif(lista_tokens[look_ahead + 1].nome == "<numerico>"):
                 aux_look_ahead = look_ahead + 2
@@ -54,7 +54,7 @@ def verificar_atribuicao(lista_tokens, tabela_simbolos, look_ahead):
                                 #return True
                                 pass
                             else:
-                                print('\033[91m' + "Semantic error in line {0}, arithmetic with wrong values".format(lista_tokens[look_ahead - 2].linha) + '\033[0m') #DETALHAR ERRO
+                                print('\033[91m' + "Semantic error in line {0}, arithmetic with wrong values".format(lista_tokens[look_ahead].linha) + '\033[0m') #DETALHAR ERRO
                                 return False
                         aux_look_ahead += 2
                 return True
@@ -80,7 +80,7 @@ def verificar_atribuicao(lista_tokens, tabela_simbolos, look_ahead):
             elif(lista_tokens[look_ahead + 1].nome == "<palavraBooleana>"):
                 return True
             else:
-                print('\033[91m' + "Semantic error in line {0}, type error".format(lista_tokens[look_ahead - 2].linha) + '\033[0m') #DETALHAR ERRO
+                print('\033[91m' + "Semantic error in line {0}, type error".format(lista_tokens[look_ahead].linha) + '\033[0m') #DETALHAR ERRO
                 return False
         elif(tipo_declarada == "const"):
             if(lista_tokens[look_ahead + 1].nome == "<numerico>"):
@@ -91,7 +91,7 @@ def verificar_atribuicao(lista_tokens, tabela_simbolos, look_ahead):
                 print('\033[91m' + "Semantic error in line {0}, wrong way to declare constant".format(lista_tokens[look_ahead - 2].linha) + '\033[0m') #DETALHAR ERRO
                 return False
     else:
-        print('\033[91m' + "Semantic error in line {0}, variabel {1} undeclared".format(lista_tokens[look_ahead - 2].linha, lista_tokens[look_ahead - 1].lexema) + '\033[0m') #DETALHAR ERRO
+        print('\033[91m' + "Semantic error in line {0}, variabel {1} undeclared".format(lista_tokens[look_ahead].linha, lista_tokens[look_ahead - 1].lexema) + '\033[0m') #DETALHAR ERRO
         return False
 
 
@@ -259,7 +259,7 @@ def verificar_expressao(lista_tokens, tabela_simbolos, look_ahead):
                             if(lista_tokens[look_ahead + 1].nome == "<booleanas>"):
                                 return True
                             else:
-                                print('\033[91m' + "Semantic error line: {0}, only boolean operations for two cases".format(lista_tokens[look_ahead - 2].linha) + '\033[0m')
+                                print('\033[91m' + "Semantic error line: {0}, only boolean operations for two cases".format(lista_tokens[look_ahead].linha) + '\033[0m')
                                 return False
 
 

@@ -56,6 +56,7 @@ class AnalizadorSintatico:
                     self.funcao()
                     self.match("<fim_comando>")
                 else:
+                    #print('\033[91m' + "Error line {0} ".format((self.lista_tokens[look_ahead_aux].linha) + '\033[0m'))
                     exit()
             else:
                 self.match("<variavel>")
@@ -157,6 +158,7 @@ class AnalizadorSintatico:
                                 self.match("<variavel>")
             self.match("<fim_comando>")
         else:
+            print('\033[91m' + "Syntax Error line {0} ".format(str(self.lista_tokens[look_ahead_aux].linha)) + '\033[0m')
             exit()
 
     def funcao(self):

@@ -12,7 +12,7 @@ main{
     boolean variavelBoo = true;
     variavel1 = 10 + 10 - 1 * 2;
 
-    int chamadaSoma = somar(variavel1, 100);
+    int resultadoSoma = somar(variavel1, 100);
 
     exibir();
 
@@ -27,11 +27,5 @@ main{
             cont = cont - 1;
         }
     }
-
-    while(variavelBoo == true){
-        printf(variavelBoo);
-
-    }
-
 
 }
