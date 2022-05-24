@@ -71,8 +71,7 @@ class AnalizadorSintatico:
             self.laco()
             self.bloco()
         elif(token_.nome == "<imprimir>"):
-            print("entrou imprimir")
-            print(self.lista_tokens[self.look_ahead].lexema)
+            #print(self.lista_tokens[self.look_ahead].lexema)
             self.imprimir()
             self.bloco()
         # elif(token_.nome == "<retorno>"): #TESTANDO RETORNO APENAS DENTRO DE DEF
@@ -190,7 +189,7 @@ class AnalizadorSintatico:
     def parametros(self):
         
         token_ = self.lista_tokens[self.look_ahead]
-        print(token_.lexema)
+        # print(token_.lexema)
         # if self.lista_tokens[self.look_ahead - 2].lexema in self.tabela_simbolos:
         #     print("ENTOUUUUUUUUUUUUUUUUUUUU")
         #     print(self.tabela_simbolos[self.lista_tokens[self.look_ahead - 2].lexema].tipo)
