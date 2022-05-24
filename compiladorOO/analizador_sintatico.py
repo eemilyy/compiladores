@@ -75,16 +75,9 @@ class AnalizadorSintatico:
             #print(self.lista_tokens[self.look_ahead].lexema)
             self.imprimir()
             self.bloco()
-        # elif(token_.nome == "<retorno>"): #TESTANDO RETORNO APENAS DENTRO DE DEF
-        #     self.retorno()
-        #     self.bloco()
         elif(token_.nome == "<procedimento>"):
             self.procedimento()
             self.bloco()
-        # elif(token_.nome == "<variavel>"):
-        #     self.funcao()
-        #     self.match("<fim_comando>")
-        #     self.bloco()
         elif(token_.nome == "<constante>"):
             self.match("<constante>")
             self.match("<variavel>")
@@ -173,9 +166,7 @@ class AnalizadorSintatico:
 
                 look_ahead_aux += 1
 
-            # for item in instrucao_aux:
-            #     print(item.lexema, end=" ")
-            # print("<---------------------------------------------------------------------------")
+
             self.instrucoes.append(instrucao_aux)
 
         self.match("<variavel>")
@@ -183,28 +174,12 @@ class AnalizadorSintatico:
         self.parametros()
         self.match("<fecha_parenteses>")
 
-        
-        # endFunc = [TokenLex("<end_func>","end_func",0), TokenLex("<end_func>","end_func",0)]
-        # self.instrucoes.append(endFunc)
+
 
 
     def parametros(self):
         
         token_ = self.lista_tokens[self.look_ahead]
-        # print(token_.lexema)
-        # if self.lista_tokens[self.look_ahead - 2].lexema in self.tabela_simbolos:
-        #     print("ENTOUUUUUUUUUUUUUUUUUUUU")
-        #     print(self.tabela_simbolos[self.lista_tokens[self.look_ahead - 2].lexema].tipo)
-        # #<parametros> ::= <declaracao_variavel> , <parametros> | <declaracao_variavel> | ε
-
-        # if(self.lista_tokens[self.look_ahead - 2].lexema in self.tabela_simbolos):
-        #     print("linha 203")
-        #     if(self.tabela_simbolos[self.lista_tokens[self.look_ahead - 2].lexema].tipo == "procedure"):
-        #         if(verificar_parametros(self.lista_tokens, self.tabela_simbolos, self.look_ahead - 2)):
-        #             return
-        #         else:
-        #             exit()
-
 
         if(token_.nome == "<tipo>"):
             self.match("<tipo>")
@@ -237,12 +212,6 @@ class AnalizadorSintatico:
             if(self.lista_tokens[self.look_ahead].nome == "<virgula>"):
                 self.parametros()
             return
-
-        # elif(self.tabela_simbolos[self.lista_tokens[self.look_ahead - 2].lexema].tipo == "<procedimento>"):
-        #     if(verificar_parametros(self.lista_tokens, self.tabela_simbolos, self.look_ahead)):
-        #         return
-        #     else:
-        #         print("errooooooo")
         else:
             return
 

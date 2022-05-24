@@ -23,11 +23,9 @@ class GeradorCodigoIntermediario:
             arq.write("\n")
 
             if(self.lista_instrucoes[i][1].nome) == "<atribuicao>": 
-                #print(self.lista_instrucoes[i][1].lexema)
                 self.gen_attr(self.lista_instrucoes[i], arq) #chamando funcao para gerar codigo para atribuicao
 
             elif(self.lista_instrucoes[i][0].nome) == "<condicao>":
-                #print(self.lista_instrucoes[i][0].lexema)
                 self.gen_if(self.lista_instrucoes[i], arq)
 
             elif(self.lista_instrucoes[i][0].nome) == "<laco>" or self.lista_instrucoes[i][0].nome == "<fecha_chaves>":
@@ -37,17 +35,13 @@ class GeradorCodigoIntermediario:
                 self.gen_call_proc(self.lista_instrucoes[i], arq)
 
             elif(self.lista_instrucoes[i][0].nome) == "<declaracao_func>":
-                #print("declaracaoooo funcao ---- gen <<<<<<<<<<<<")
                 self.gen_func(self.lista_instrucoes[i], arq)
             
             elif(self.lista_instrucoes[i][0].nome) == "<end_func>":
                 print("end_func")
                 arq.write("end_func" + "\n")
-                #print("declaracaoooo funcao ---- gen <<<<<<<<<<<<")
-                #self.gen_func(self.lista_instrucoes[i])
 
             elif(self.lista_instrucoes[i][0].nome == "<procedimento>"):
-                #print("declaracao procedimento <-------------------------------------")
                 self.gen_proc(self.lista_instrucoes[i], arq)
 
             elif(self.lista_instrucoes[i][0].nome) == "<end_proc>":
@@ -59,7 +53,6 @@ class GeradorCodigoIntermediario:
                 arq.write("{0} {1}".format(self.lista_instrucoes[i][0].lexema, self.lista_instrucoes[i][1].lexema) + "\n")
 
             elif(self.lista_instrucoes[i][0].nome) == "<imprimir>":
-                 #print("{0} {1}".format(self.lista_instrucoes[i][0].lexema, self.lista_instrucoes[i][1].lexema))
                  a = print("print({0})".format(self.lista_instrucoes[i][2].lexema))
                  arq.write("print({0})".format(self.lista_instrucoes[i][2].lexema) + "\n")
         
@@ -68,8 +61,7 @@ class GeradorCodigoIntermediario:
     def gen_if(self, instrucao, arq):
         if(instrucao[0].lexema == "if"):
             listAux = []
-            # listAux.append(TokenLex("_c0","_c0",0))
-            # listAux.append(TokenLex("<atribuicao>","=",0))
+
             for item in instrucao:
                 if item.lexema not in ["if","(",")"]:
                     listAux.append(item)
@@ -101,8 +93,6 @@ class GeradorCodigoIntermediario:
     def gen_while(self, instrucao, arq):
         if(instrucao[0].lexema == "while"):
             listAux = []
-            # listAux.append(TokenLex("_c0","_c0",0))
-            # listAux.append(TokenLex("<atribuicao>","=",0))
             for item in instrucao:
                 if item.lexema not in ["while","(",")"]:
                     listAux.append(item)
@@ -126,7 +116,6 @@ class GeradorCodigoIntermediario:
 
             #self.labelsElse.append(self.labels)
         else:
-            #self.labels += 1 <<<<<<<<<<<<<<<<,,------------------
             pop = self.lastLabelWhile.pop()
             arq.write("goto: L{0}".format(pop) + "\n")
             arq.write("L{0}:".format(pop + 1) + "\n")
@@ -141,7 +130,6 @@ class GeradorCodigoIntermediario:
             print("")
             arq.write("\n")
         else:
-            #instrucao.reverse()
             if(instrucao[3].nome == "<abre_parenteses>"): #chamada de funcao
                 contParam = 0
                 i = 4
@@ -175,9 +163,6 @@ class GeradorCodigoIntermediario:
                 arq.write("{0} = _t{1}".format(instrucao[0].lexema,anterior) + "\n")
 
     def gen_call_proc(self, instrucao, arq):
-        # for item in instrucao:
-        #     print(item.lexema,end=" ")
-        # print("->>>>>>>>>>>>>> chamada de procedimento")
 
         contParam = 0
         i = 2
@@ -195,37 +180,10 @@ class GeradorCodigoIntermediario:
         arq.write("call {0},{1}".format(instrucao[0].lexema, contParam) + "\n")
 
     def gen_func(self, instrucao, arq):
-        # for item in instrucao:
-        #     print(item.lexema,end=" ")
-        # print("")
-
-        # contParam = 0
-        # i = 2
-        # if len(instrucao) > 3:
-        #     while(instrucao[i + 1].nome != "<fecha_parenteses>"):
-        #         i += 1
-        #     while(instrucao[i].nome != "<abre_parenteses>"):
-        #         if instrucao[i].lexema not in  [",","int","boolean"]:
-        #             print("_p{0} = {1} ".format(contParam,instrucao[i].lexema))
-        #             arq.write("_p{0} = {1} ".format(contParam,instrucao[i].lexema) + "\n")
-        #             contParam += 1
-        #         i -= 1
         print("func {0}:\nbegin_func:".format(instrucao[1].lexema))
         arq.write("func {0}:\nbegin_func:".format(instrucao[1].lexema) + "\n")
         
 
-    def gen_proc(self, instrucao, arq):
-        
-        # contParam = 0
-        # i = 2
-        # if len(instrucao) > 3:
-        #     while(instrucao[i + 1].nome != "<fecha_parenteses>"):
-        #         i += 1
-        #     while(instrucao[i].nome != "<abre_parenteses>"):
-        #         if instrucao[i].lexema not in  [",","int","boolean"]:
-        #             print("_p{0} = {1} ".format(contParam,instrucao[i].lexema))
-        #             arq.write("_p{0} = {1} ".format(contParam,instrucao[i].lexema) + "\n")
-        #             contParam += 1
-        #         i -= 1
+    def gen_proc(self, instrucao, arq):  
         print("proc {0}:\nbegin_proc:".format(instrucao[1].lexema))
         arq.write("proc {0}:\nbegin_proc:".format(instrucao[1].lexema) + "\n")
